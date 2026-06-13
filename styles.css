@@ -242,6 +242,13 @@ h3 {
   margin-bottom: clamp(52px, 7vw, 96px);
 }
 
+.section-intro {
+  max-width: 520px;
+  margin: 28px 0 0;
+  color: var(--muted);
+  font-size: 16px;
+}
+
 .journal-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -345,11 +352,6 @@ h3 {
 .letter-inner > p:not(.eyebrow) {
   color: var(--muted);
   font-size: 18px;
-}
-
-.letter-note {
-  margin: 28px 0 0;
-  font-size: 13px !important;
 }
 
 .footer {
