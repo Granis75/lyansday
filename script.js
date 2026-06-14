@@ -3,7 +3,6 @@ const header = document.querySelector('[data-scroll-header]');
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
 const mobileNavQuery = window.matchMedia('(max-width: 1080px)');
-const staticForm = document.querySelector('[data-static-form]');
 
 const setHeaderState = () => {
   header?.classList.toggle('is-scrolled', window.scrollY > 12);
@@ -13,7 +12,7 @@ const setMenuState = isOpen => {
   if (!menuToggle || !nav) return;
   menuToggle.classList.toggle('is-open', isOpen);
   menuToggle.setAttribute('aria-expanded', String(isOpen));
-  menuToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+  menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
   nav.classList.toggle('is-open', isOpen);
   if (mobileNavQuery.matches) {
     nav.setAttribute('aria-hidden', String(!isOpen));
@@ -54,21 +53,6 @@ if (menuToggle && nav) {
   });
 
   mobileNavQuery.addEventListener('change', closeMenu);
-}
-
-if (staticForm instanceof HTMLFormElement) {
-  const status = staticForm.querySelector('[role="status"]');
-
-  staticForm.addEventListener('submit', event => {
-    event.preventDefault();
-
-    if (!staticForm.reportValidity()) return;
-
-    if (status) {
-      status.textContent =
-        "Merci. Le formulaire est encore statique : l'adresse n'a pas été envoyée.";
-    }
-  });
 }
 
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

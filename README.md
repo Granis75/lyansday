@@ -1,6 +1,6 @@
-# Lyan's Day — objects & spaces journal
+# Lyan's Day — home fragrance, skincare & quiet objects
 
-Journal visuel statique autour des jours ordinaires, des espaces calmes, des objets utiles, des lieux et de la vie à deux.
+Boutique éditoriale statique de sélections premium en drops limités : skincare, parfums d'intérieur et objets du quotidien.
 
 ## Fichiers
 
@@ -13,9 +13,9 @@ Journal visuel statique autour des jours ordinaires, des espaces calmes, des obj
 
 ## Principes
 
-- Le journal et ses notes datées restent au centre de la page.
-- Les images, dates et légendes portent le récit avant les explications de marque.
+- Les drops et les produits restent au centre de la page.
+- Les images et les descriptions courtes portent la sélection.
 - Le contenu est visible par défaut, avec ou sans JavaScript.
-- La lettre reste une présence secondaire, après les notes.
-- Le formulaire de la lettre est statique et ne transmet aucune adresse.
-- Chaque section part d'une observation concrète plutôt que d'une explication du projet.
+- La commande reste directe via WhatsApp, Instagram ou email.
+- Aucun paiement, panier ou backend n'est intégré.
+- Les coordonnées de contact publiques doivent être personnalisées avant publication.
