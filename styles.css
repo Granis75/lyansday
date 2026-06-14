@@ -172,7 +172,7 @@ h3 {
 .hero {
   min-height: calc(100vh - 78px);
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(520px, 1.1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.68fr);
   align-items: center;
   gap: clamp(48px, 8vw, 132px);
   padding-top: clamp(52px, 7vw, 100px);
@@ -235,7 +235,7 @@ h3 {
 
 .hero-visual {
   position: relative;
-  aspect-ratio: 18 / 11;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--paper-deep);
 }
@@ -244,29 +244,6 @@ h3 {
   height: 100%;
   object-fit: cover;
   object-position: 50% 50%;
-}
-
-.hero-visual figcaption {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
-  max-width: 245px;
-  padding: 16px 18px;
-  background: rgba(244, 240, 232, 0.94);
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: 20px;
-  line-height: 1.1;
-}
-
-.hero-visual figcaption span {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--accent);
-  font-family: "Inter", sans-serif;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
 }
 
 .manifesto {
@@ -414,9 +391,23 @@ h3 {
   left: 10px;
   padding: 10px 12px;
   background: rgba(250, 247, 241, 0.9);
+  text-align: left;
+}
+
+.brand-grid figcaption strong {
+  display: block;
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(18px, 1.5vw, 24px);
-  text-align: center;
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.brand-grid figcaption span {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.35;
 }
 
 .categories { background: var(--paper-deep); }
@@ -430,11 +421,11 @@ h3 {
 .category-visual-grid figure {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 14 / 9;
+  aspect-ratio: 4 / 3;
   background: var(--surface);
 }
 
-.category-visual-grid img { height: 100%; object-fit: cover; }
+.category-visual-grid img { height: 100%; object-fit: contain; }
 
 .category-visual-grid figcaption {
   position: absolute;
@@ -445,36 +436,6 @@ h3 {
   background: rgba(250, 247, 241, 0.92);
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(24px, 2.2vw, 32px);
-}
-
-.category-list {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 38px 0 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-  list-style: none;
-}
-
-.category-list li {
-  display: grid;
-  grid-template-columns: 34px 1fr;
-  gap: 12px;
-  padding: 20px 18px;
-  border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  font-family: "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(20px, 1.8vw, 28px);
-}
-
-.category-list li:first-child { border-left: 1px solid var(--line); }
-
-.category-list span {
-  padding-top: 6px;
-  color: var(--accent);
-  font-family: "Inter", sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.12em;
 }
 
 .routines { border-top: 1px solid var(--line); }
@@ -542,16 +503,12 @@ h3 {
 
 .journal-card figure {
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4;
   margin-bottom: 22px;
   background: var(--paper-deep);
 }
 
 .journal-card img { height: 100%; object-fit: cover; }
-.journal-card:nth-child(1) img { object-position: 50% 53%; }
-.journal-card:nth-child(2) img { object-position: 50% 63%; }
-.journal-card:nth-child(3) img { object-position: 50% 57%; }
-.journal-card:nth-child(4) img { object-position: 50% 44%; }
 .journal-meta { margin-bottom: 10px; }
 .journal-card h3 { font-size: clamp(25px, 2vw, 32px); }
 .journal-card > p:last-child { margin-bottom: 0; color: var(--muted); font-size: 14px; }
@@ -564,7 +521,7 @@ h3 {
   border-top: 1px solid var(--line);
 }
 
-.about-image { overflow: hidden; aspect-ratio: 4 / 5; background: var(--paper-deep); }
+.about-image { overflow: hidden; aspect-ratio: 3 / 4; background: var(--paper-deep); }
 .about-image img { height: 100%; object-fit: cover; }
 .about-copy p:last-child { max-width: 640px; color: var(--muted); font-size: clamp(17px, 1.5vw, 20px); }
 
@@ -755,7 +712,7 @@ h3 {
   h2 { font-size: clamp(41px, 11.5vw, 54px); }
 
   .hero { gap: 50px; padding-top: 56px; }
-  .hero-visual { min-height: 0; aspect-ratio: 18 / 11; }
+  .hero-visual { min-height: 0; aspect-ratio: 3 / 4; }
   .hero-notes { display: grid; grid-template-columns: 1fr; gap: 10px; }
 
   .section-heading,
@@ -773,9 +730,7 @@ h3 {
   .product-grid { gap: 62px; }
   .product-description { min-height: 0; }
   .brand-grid,
-  .category-visual-grid,
-  .category-list { grid-template-columns: 1fr; }
-  .category-list li { border-left: 1px solid var(--line); }
+  .category-visual-grid { grid-template-columns: 1fr; }
 
   .routine-grid,
   .delivery-grid { border-left: 0; }

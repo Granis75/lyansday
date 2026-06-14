@@ -12,7 +12,6 @@ Les demandes sont préparées pour WhatsApp et Instagram.
 - `script.js` : catalogue, configuration des contacts et navigation mobile
 - `privacy.html` : informations de confidentialité
 - `assets/images/lyan-co/` : pack visuel WebP et manifeste d’inventaire
-- `assets/journal-*.webp` : visuels éditoriaux historiques conservés
 
 ## Configuration
 
@@ -27,5 +26,6 @@ automatiquement un message incluant le nom du produit.
 ## Images produit
 
 Le pack visuel fourni par le propriétaire est stocké localement au format WebP.
+Toutes les sections visibles utilisent désormais cette bibliothèque de vrais produits.
 Avant un usage commercial public, les droits des images sources doivent être
 confirmés comme indiqué dans le manifeste.
