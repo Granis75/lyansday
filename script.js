@@ -3,6 +3,7 @@ const header = document.querySelector('[data-scroll-header]');
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
 const mobileNavQuery = window.matchMedia('(max-width: 1080px)');
+const staticForm = document.querySelector('[data-static-form]');
 
 const setHeaderState = () => {
   header?.classList.toggle('is-scrolled', window.scrollY > 12);
@@ -48,12 +49,27 @@ if (menuToggle && nav) {
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
       closeMenu();
+      menuToggle.focus();
     }
   });
 
   mobileNavQuery.addEventListener('change', closeMenu);
 }
 
+if (staticForm instanceof HTMLFormElement) {
+  const status = staticForm.querySelector('[role="status"]');
+
+  staticForm.addEventListener('submit', event => {
+    event.preventDefault();
+
+    if (!staticForm.reportValidity()) return;
+
+    if (status) {
+      status.textContent =
+        "Merci. Le formulaire est encore statique : l'adresse n'a pas été envoyée.";
+    }
+  });
+}
 
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   html.classList.add('reveal-ready');

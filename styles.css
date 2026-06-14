@@ -200,7 +200,6 @@ h3 {
 
 .hero-photo {
   position: absolute;
-  overflow: hidden;
   background: var(--paper-soft);
 }
 
@@ -223,8 +222,8 @@ h3 {
 
 .image-note {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: -13%;
+  top: -3%;
   margin: 0;
   color: var(--muted);
   font-family: "Cormorant Garamond", Georgia, serif;
@@ -292,6 +291,18 @@ h3 {
   transition: transform 600ms ease;
 }
 
+.entry-image figcaption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .journal-entry:hover .entry-image img { transform: scale(1.015); }
 
 .entry-copy { padding-top: 24px; }
@@ -354,6 +365,70 @@ h3 {
   font-size: 18px;
 }
 
+.letter-form {
+  max-width: 560px;
+  margin: 34px auto 0;
+  text-align: left;
+}
+
+.letter-form label {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: var(--anthracite);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.letter-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  border-bottom: 1px solid var(--anthracite);
+}
+
+.letter-fields input,
+.letter-fields button {
+  min-height: 50px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+}
+
+.letter-fields input {
+  min-width: 0;
+  padding: 0 12px 0 0;
+}
+
+.letter-fields input::placeholder { color: #8a8178; }
+
+.letter-fields button {
+  padding: 0 0 0 24px;
+  color: var(--anthracite);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.letter-fields input:focus-visible,
+.letter-fields button:focus-visible {
+  outline-offset: 2px;
+}
+
+.form-note,
+.form-status {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.form-status {
+  min-height: 1.6em;
+  color: var(--anthracite);
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -372,6 +447,15 @@ h3 {
   font-size: 24px;
   letter-spacing: 0.14em;
 }
+
+.footer a {
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 180ms ease;
+}
+
+.footer a:hover { text-decoration-color: currentColor; }
 
 .legal-page { max-width: 920px; margin: 0 auto; }
 .legal-page h1 { font-size: clamp(54px, 8vw, 96px); }
@@ -556,6 +640,24 @@ h3 {
 
   .about-grid { grid-template-columns: 1fr; gap: 18px; }
   .about-copy { padding-top: 0; }
+
+  .letter-form { margin-top: 28px; }
+
+  .letter-fields {
+    grid-template-columns: 1fr;
+    border-bottom: 0;
+  }
+
+  .letter-fields input {
+    padding-right: 0;
+    border-bottom: 1px solid var(--anthracite);
+  }
+
+  .letter-fields button {
+    justify-self: start;
+    min-height: 44px;
+    padding-left: 0;
+  }
 
   .footer { flex-direction: column; gap: 10px; }
 }

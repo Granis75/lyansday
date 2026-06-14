@@ -17,7 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&amp;family=Inter:wght@300;400;500&amp;display=swap"
       rel="stylesheet"
     />
     <script>document.documentElement.classList.add("js");</script>
@@ -42,7 +42,7 @@
     <main id="top">
       <section class="hero section-pad">
         <div class="hero-copy reveal">
-          <p class="eyebrow">objects & spaces journal</p>
+          <p class="eyebrow">objects &amp; spaces journal</p>
           <h1>Un journal de nos jours ordinaires.</h1>
           <p class="hero-intro">Objets, espaces et moments d'une vie à deux.</p>
           <p class="hero-text">
@@ -52,14 +52,28 @@
           <a class="text-link" href="#journal">Lire les dernières notes <span aria-hidden="true">↓</span></a>
         </div>
 
-        <div class="hero-visual reveal" aria-label="Une table de travail calme et une tasse de thé">
+        <div class="hero-visual reveal">
           <figure class="hero-photo hero-photo-main">
-            <img src="assets/journal-work.png" width="270" height="235" alt="Une table en bois avec un ordinateur, un carnet et une tasse" />
+            <img
+              src="assets/journal-work.webp"
+              width="270"
+              height="235"
+              decoding="async"
+              fetchpriority="high"
+              alt="Une table en bois avec un ordinateur, un carnet et une tasse"
+            />
+            <figcaption class="image-note">À la maison, un matin de juin.</figcaption>
           </figure>
           <figure class="hero-photo hero-photo-detail">
-            <img src="assets/journal-care.png" width="180" height="300" alt="Une tasse de thé tenue au-dessus d'une couverture claire" />
+            <img
+              src="assets/journal-care.webp"
+              width="180"
+              height="300"
+              decoding="async"
+              alt="Une tasse de thé tenue au-dessus d'une couverture claire"
+            />
+            <figcaption class="sr-only">Un détail du même matin, tasse en main.</figcaption>
           </figure>
-          <p class="image-note">À la maison, un matin de juin.</p>
         </div>
       </section>
 
@@ -75,14 +89,24 @@
         <div class="journal-grid">
           <article class="journal-entry journal-entry-featured reveal" id="objects">
             <figure class="entry-image">
-              <img src="assets/journal-work.png" width="270" height="235" decoding="async" alt="Ordinateur, verre d'eau, tasse et carnet posés sur une table en bois" />
+              <img
+                src="assets/journal-work.webp"
+                width="270"
+                height="235"
+                loading="lazy"
+                decoding="async"
+                alt="Ordinateur, verre d'eau, tasse et carnet posés sur une table en bois"
+              />
+              <figcaption>La table de travail, avant de commencer.</figcaption>
             </figure>
             <div class="entry-copy">
-              <div class="entry-meta">
-                <time datetime="2026-06-12">12 juin 2026</time>
-                <span>Objects</span>
-              </div>
-              <h3>Une table avant le travail</h3>
+              <header>
+                <div class="entry-meta">
+                  <time datetime="2026-06-12">12 juin 2026</time>
+                  <span>Objects</span>
+                </div>
+                <h3>Une table avant le travail</h3>
+              </header>
               <p>
                 La première chose que nous préparons le matin n'est pas un écran,
                 mais une place où nous asseoir.
@@ -92,56 +116,96 @@
 
           <article class="journal-entry reveal">
             <figure class="entry-image portrait">
-              <img src="assets/journal-coffee.png" width="160" height="235" decoding="async" alt="Une tasse claire dans la lumière du matin" />
+              <img
+                src="assets/journal-coffee.webp"
+                width="160"
+                height="235"
+                loading="lazy"
+                decoding="async"
+                alt="Une tasse claire dans la lumière du matin"
+              />
+              <figcaption>La tasse claire utilisée chaque jour.</figcaption>
             </figure>
             <div class="entry-copy">
-              <div class="entry-meta">
-                <time datetime="2026-06-08">8 juin 2026</time>
-                <span>Objects</span>
-              </div>
-              <h3>La tasse de tous les jours</h3>
+              <header>
+                <div class="entry-meta">
+                  <time datetime="2026-06-08">8 juin 2026</time>
+                  <span>Objects</span>
+                </div>
+                <h3>La tasse de tous les jours</h3>
+              </header>
               <p>Les meilleurs objets finissent par disparaître dans le rythme quotidien.</p>
             </div>
           </article>
 
           <article class="journal-entry reveal">
             <figure class="entry-image landscape">
-              <img src="assets/journal-home.png" width="270" height="235" decoding="async" alt="Une salle à manger lumineuse entourée de plantes" />
+              <img
+                src="assets/journal-home.webp"
+                width="270"
+                height="235"
+                loading="lazy"
+                decoding="async"
+                alt="Une salle à manger lumineuse entourée de plantes"
+              />
+              <figcaption>Le salon traversé par la lumière du matin.</figcaption>
             </figure>
             <div class="entry-copy">
-              <div class="entry-meta">
-                <time datetime="2026-06-05">5 juin 2026</time>
-                <span>Home</span>
-              </div>
-              <h3>Lumière du matin dans le salon</h3>
+              <header>
+                <div class="entry-meta">
+                  <time datetime="2026-06-05">5 juin 2026</time>
+                  <span>Home</span>
+                </div>
+                <h3>Lumière du matin dans le salon</h3>
+              </header>
               <p>Certains coins de la maison changent complètement selon l'heure.</p>
             </div>
           </article>
 
           <article class="journal-entry reveal">
             <figure class="entry-image portrait">
-              <img src="assets/journal-care.png" width="180" height="300" decoding="async" alt="Une tasse de thé vert tenue entre les mains" />
+              <img
+                src="assets/journal-care.webp"
+                width="180"
+                height="300"
+                loading="lazy"
+                decoding="async"
+                alt="Une tasse de thé vert tenue entre les mains"
+              />
+              <figcaption>Un thé vert tenu entre les mains.</figcaption>
             </figure>
             <div class="entry-copy">
-              <div class="entry-meta">
-                <time datetime="2026-06-01">1 juin 2026</time>
-                <span>Routines</span>
-              </div>
-              <h3>Le dimanche commence lentement</h3>
+              <header>
+                <div class="entry-meta">
+                  <time datetime="2026-06-01">1 juin 2026</time>
+                  <span>Routines</span>
+                </div>
+                <h3>Le dimanche commence lentement</h3>
+              </header>
               <p>Un soin, du thé et la fenêtre ouverte donnent déjà une forme à la journée.</p>
             </div>
           </article>
 
           <article class="journal-entry journal-entry-wide reveal" id="places">
             <figure class="entry-image">
-              <img src="assets/journal-table.png" width="170" height="275" decoding="async" alt="Un ordinateur et une tasse sur une table près d'une fenêtre" />
+              <img
+                src="assets/journal-table.webp"
+                width="170"
+                height="275"
+                loading="lazy"
+                decoding="async"
+                alt="Un ordinateur et une tasse sur une table près d'une fenêtre"
+              />
+              <figcaption>Une table près de la fenêtre du café.</figcaption>
             </figure>
             <div class="entry-copy">
-              <div class="entry-meta">
-                <time datetime="2026-05-28">28 mai 2026</time>
-                <span>Places</span>
-              </div>
-              <h3>Un café calme</h3>
+              <header>
+                <div class="entry-meta">
+                  <time datetime="2026-05-28">28 mai 2026</time>
+                  <span>Places</span>
+                </div>
+                <h3>Un café calme</h3>
+              </header>
               <p>
                 Tous les lieux n'ont pas besoin d'être productifs pour nous être utiles.
                 Celui-ci nous laisse simplement rester.
@@ -172,7 +236,34 @@
         <div class="letter-inner reveal">
           <p class="eyebrow">la lettre</p>
           <h2>Des nouvelles, de temps en temps.</h2>
-          <p>Une lettre calme et occasionnelle, quand quelques notes méritent d'être réunies.</p>
+          <p id="letter-description">
+            Une lettre occasionnelle, quand il y a quelque chose à partager.
+          </p>
+          <form
+            class="letter-form"
+            action="#letter"
+            method="post"
+            data-static-form
+            aria-describedby="letter-description letter-note letter-status"
+          >
+            <label for="letter-email">Adresse e-mail</label>
+            <div class="letter-fields">
+              <input
+                id="letter-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                inputmode="email"
+                placeholder="vous@exemple.fr"
+                required
+              />
+              <button type="submit">Envoyer</button>
+            </div>
+            <p class="form-note" id="letter-note">
+              Formulaire en préparation : aucune adresse n'est transmise pour le moment.
+            </p>
+            <p class="form-status" id="letter-status" role="status" aria-live="polite"></p>
+          </form>
         </div>
       </section>
     </main>
@@ -180,7 +271,7 @@
     <footer class="footer">
       <p>lyan's day</p>
       <p>objects · spaces · ordinary days</p>
-      <p>tenu à deux</p>
+      <p><a href="privacy.html">Confidentialité</a> · tenu à deux</p>
     </footer>
 
     <script src="script.js"></script>
