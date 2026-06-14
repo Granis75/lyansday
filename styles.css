@@ -208,6 +208,9 @@ h3 {
   object-fit: cover;
 }
 
+.hero-photo-main .image-room { object-position: 48% 58%; }
+.hero-photo-detail .image-scent { object-position: 50% 52%; }
+
 .hero-photo-main {
   inset: 3% 13% 13% 0;
 }
@@ -290,6 +293,10 @@ h3 {
   object-fit: cover;
   transition: transform 600ms ease;
 }
+
+.entry-image .image-desk { object-position: 50% 63%; }
+.entry-image .image-room { object-position: 50% 58%; }
+.entry-image .image-fragrance { object-position: 50% 54%; }
 
 .entry-image figcaption {
   position: absolute;
@@ -603,6 +610,11 @@ h3 {
     border-width: 7px;
   }
   .image-note { display: none; }
+
+  .hero-photo-main .image-room { object-position: 50% 54%; }
+  .entry-image .image-desk { object-position: 50% 68%; }
+  .entry-image .image-room { object-position: 50% 55%; }
+  .entry-image .image-fragrance { object-position: 50% 58%; }
 
   .section-heading { margin-bottom: 54px; }
 
