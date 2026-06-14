@@ -1,6 +1,6 @@
-# Lyan's Day — home fragrance, skincare & quiet objects
+# Lyan & Co. — curated K-Beauty & J-Beauty
 
-Boutique éditoriale statique de sélections premium en drops limités : skincare, parfums d'intérieur et objets du quotidien.
+Boutique éditoriale statique proposant une petite sélection de soins coréens et japonais.
 
 ## Fichiers
 
@@ -8,14 +8,14 @@ Boutique éditoriale statique de sélections premium en drops limités : skincar
 - `privacy.html` : modèle de politique de confidentialité à compléter avant lancement public
 - `styles.css` : système visuel responsive
 - `script.js` : navigation mobile et état du header
-- `assets/journal-*.webp` : images optimisées des notes et de la réserve éditoriale
-- `assets/moodboard.webp` : référence visuelle du projet
+- `assets/journal-*.webp` : images optimisées des produits et du journal
+- `assets/lyanco-*.webp` : visuels produits rebrandés pour Lyan & Co.
 
 ## Principes
 
-- Les drops et les produits restent au centre de la page.
-- Les images et les descriptions courtes portent la sélection.
+- La sélection K-Beauty et J-Beauty reste volontairement courte.
+- Les produits sont présentés sans prix, panier ou paiement en ligne.
 - Le contenu est visible par défaut, avec ou sans JavaScript.
-- La commande reste directe via WhatsApp, Instagram ou email.
+- Les demandes passent directement par WhatsApp, Instagram ou email.
 - Aucun paiement, panier ou backend n'est intégré.
 - Les coordonnées de contact publiques doivent être personnalisées avant publication.

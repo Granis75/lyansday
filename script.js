@@ -2,7 +2,7 @@ const html = document.documentElement;
 const header = document.querySelector('[data-scroll-header]');
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.querySelector('#main-nav');
-const mobileNavQuery = window.matchMedia('(max-width: 1080px)');
+const mobileNavQuery = window.matchMedia('(max-width: 1120px)');
 
 const setHeaderState = () => {
   header?.classList.toggle('is-scrolled', window.scrollY > 12);
