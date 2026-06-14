@@ -1,21 +1,31 @@
-# Lyan & Co. — curated K-Beauty & J-Beauty
+# Lyan & Co.
 
-Boutique éditoriale statique proposant une petite sélection de soins coréens et japonais.
+Boutique éditoriale de K-Beauty et J-Beauty destinée au marché algérien.
 
-## Fichiers
+Le site présente une sélection courte sans prix, panier, paiement en ligne ni backend.
+Les demandes sont préparées pour WhatsApp et Instagram.
 
-- `index.html` : page principale
-- `privacy.html` : modèle de politique de confidentialité à compléter avant lancement public
-- `styles.css` : système visuel responsive
-- `script.js` : navigation mobile et état du header
-- `assets/journal-*.webp` : images optimisées des produits et du journal
-- `assets/lyanco-*.webp` : visuels produits rebrandés pour Lyan & Co.
+## Structure
 
-## Principes
+- `index.html` : page boutique en français
+- `styles.css` : direction artistique et responsive
+- `script.js` : catalogue, configuration des contacts et navigation mobile
+- `privacy.html` : informations de confidentialité
+- `assets/images/lyan-co/` : pack visuel WebP et manifeste d’inventaire
+- `assets/journal-*.webp` : visuels éditoriaux historiques conservés
 
-- La sélection K-Beauty et J-Beauty reste volontairement courte.
-- Les produits sont présentés sans prix, panier ou paiement en ligne.
-- Le contenu est visible par défaut, avec ou sans JavaScript.
-- Les demandes passent directement par WhatsApp, Instagram ou email.
-- Aucun paiement, panier ou backend n'est intégré.
-- Les coordonnées de contact publiques doivent être personnalisées avant publication.
+## Configuration
+
+Les coordonnées officielles sont centralisées dans `SITE_CONFIG.contacts` au début de
+`script.js`. Renseigner le numéro WhatsApp au format international sans `+`, l’URL
+Instagram complète et l’adresse e-mail.
+
+Les produits sont centralisés dans le tableau `PRODUCTS`, à partir du manifeste
+`assets/images/lyan-co/manifest.json`. Chaque bouton WhatsApp génère
+automatiquement un message incluant le nom du produit.
+
+## Images produit
+
+Le pack visuel fourni par le propriétaire est stocké localement au format WebP.
+Avant un usage commercial public, les droits des images sources doivent être
+confirmés comme indiqué dans le manifeste.

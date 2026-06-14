@@ -1,0 +1,165 @@
+{
+  "brand": "Lyan & Co.",
+  "folder": "assets/images/lyan-co",
+  "note": "Pack visuel optimisé en WebP pour intégration site. Les images sources ont été fournies par l’utilisateur; vérifier les droits avant usage commercial public.",
+  "hero": "hero-lyan-co-selection.webp",
+  "products": [
+    {
+      "file": "product-boj-glow-deep-serum.webp",
+      "brand": "Beauty of Joseon",
+      "name": "Glow Deep Serum",
+      "category": "Soin visage",
+      "benefit": "Éclat • riz • alpha-arbutine",
+      "availability": "En stock"
+    },
+    {
+      "file": "product-boj-relief-sun.webp",
+      "brand": "Beauty of Joseon",
+      "name": "Relief Sun SPF50+",
+      "category": "Soin solaire",
+      "benefit": "Protection quotidienne • texture légère",
+      "availability": "En stock"
+    },
+    {
+      "file": "product-boj-rice-milk-toner.webp",
+      "brand": "Beauty of Joseon",
+      "name": "Rice Milk Toner",
+      "category": "Soin visage",
+      "benefit": "Hydratation • riz • confort",
+      "availability": "Sur commande"
+    },
+    {
+      "file": "product-boj-dynasty-cream.webp",
+      "brand": "Beauty of Joseon",
+      "name": "Dynasty Cream",
+      "category": "Soin visage",
+      "benefit": "Nutrition • confort • éclat",
+      "availability": "Stock limité"
+    },
+    {
+      "file": "product-anua-heartleaf-77-toner.webp",
+      "brand": "Anua",
+      "name": "Heartleaf 77 Toner",
+      "category": "Soin visage",
+      "benefit": "Apaisant • peau sensible",
+      "availability": "En stock"
+    },
+    {
+      "file": "product-anua-rice-70-toner.webp",
+      "brand": "Anua",
+      "name": "Rice 70 Toner",
+      "category": "Soin visage",
+      "benefit": "Éclat • hydratation • barrière cutanée",
+      "availability": "Sur commande"
+    },
+    {
+      "file": "product-skin1004-centella-ampoule.webp",
+      "brand": "SKIN1004",
+      "name": "Madagascar Centella Ampoule",
+      "category": "Soin visage",
+      "benefit": "Apaisant • réparation • peau sensible",
+      "availability": "En stock"
+    },
+    {
+      "file": "product-skin1004-centella-routine.webp",
+      "brand": "SKIN1004",
+      "name": "Centella Routine",
+      "category": "Routine",
+      "benefit": "Peau sensible • apaisement",
+      "availability": "Stock limité"
+    },
+    {
+      "file": "product-mixsoon-bean-essence.webp",
+      "brand": "Mixsoon",
+      "name": "Bean Essence",
+      "category": "Soin visage",
+      "benefit": "Texture • éclat • peau lisse",
+      "availability": "Sur commande"
+    },
+    {
+      "file": "product-mixsoon-bean-cream.webp",
+      "brand": "Mixsoon",
+      "name": "Bean Cream",
+      "category": "Soin visage",
+      "benefit": "Hydratation • confort • douceur",
+      "availability": "Sur commande"
+    },
+    {
+      "file": "product-torriden-dive-in-serum.webp",
+      "brand": "Torriden",
+      "name": "Dive-In Serum",
+      "category": "Soin visage",
+      "benefit": "Acide hyaluronique • hydratation légère",
+      "availability": "En stock"
+    }
+  ],
+  "brands": [
+    {
+      "file": "brand-beauty-of-joseon.webp",
+      "name": "Beauty of Joseon"
+    },
+    {
+      "file": "brand-skin1004.webp",
+      "name": "SKIN1004"
+    },
+    {
+      "file": "brand-anua.webp",
+      "name": "Anua"
+    },
+    {
+      "file": "brand-mixsoon.webp",
+      "name": "Mixsoon"
+    },
+    {
+      "file": "brand-torriden.webp",
+      "name": "Torriden"
+    }
+  ],
+  "routines": [
+    {
+      "file": "routine-hydratation.webp",
+      "title": "Routine Hydratation",
+      "products": [
+        "Anua Heartleaf 77 Toner",
+        "Torriden Dive-In Serum",
+        "Beauty of Joseon Dynasty Cream"
+      ]
+    },
+    {
+      "file": "routine-peau-sensible.webp",
+      "title": "Routine Peau Sensible",
+      "products": [
+        "SKIN1004 Centella Routine",
+        "Anua Heartleaf 77 Toner",
+        "SKIN1004 Centella Ampoule"
+      ]
+    },
+    {
+      "file": "routine-eclat.webp",
+      "title": "Routine Éclat",
+      "products": [
+        "Beauty of Joseon Glow Deep Serum",
+        "Anua Rice 70 Toner",
+        "Mixsoon Bean Essence"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "file": "category-soin-visage.webp",
+      "title": "Soin visage"
+    },
+    {
+      "file": "category-soin-solaire.webp",
+      "title": "Soin solaire"
+    },
+    {
+      "file": "category-maison-ambiance.webp",
+      "title": "Maison & Ambiance"
+    },
+    {
+      "file": "category-kits-routines.webp",
+      "title": "Kits & Routines"
+    }
+  ]
+}
