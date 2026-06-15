@@ -91,38 +91,7 @@
           </p>
         </header>
 
-        <section class="featured-selection reveal" aria-labelledby="featured-title">
-          <div class="featured-heading">
-            <div>
-              <p class="eyebrow">Sélection du moment</p>
-              <h3 id="featured-title">Quelques essentiels à découvrir.</h3>
-            </div>
-            <div class="featured-controls" aria-label="Faire défiler la sélection du moment">
-              <button type="button" data-featured-direction="-1" aria-label="Voir les produits précédents">←</button>
-              <button type="button" data-featured-direction="1" aria-label="Voir les produits suivants">→</button>
-            </div>
-          </div>
-          <div class="featured-track" id="featured-track"></div>
-        </section>
-
         <div class="selection-controls reveal">
-          <div class="catalog-toolbar">
-            <label class="catalog-search">
-              <span aria-hidden="true">⌕</span>
-              <input
-                id="catalog-search"
-                type="search"
-                autocomplete="off"
-                aria-label="Rechercher par marque, produit ou bénéfice"
-                placeholder="Rechercher un produit"
-              />
-            </label>
-            <nav class="catalog-pagination" aria-label="Pagination du catalogue">
-              <button type="button" id="page-previous" aria-label="Page précédente">←</button>
-              <span id="page-indicator" aria-live="polite">1 / 1</span>
-              <button type="button" id="page-next" aria-label="Page suivante">→</button>
-            </nav>
-          </div>
           <div class="filter-tabs" role="toolbar" aria-label="Filtrer les produits par catégorie">
             <button type="button" data-filter="bestsellers" aria-pressed="true">Best-Sellers</button>
             <button type="button" data-filter="face" aria-pressed="false">Soin visage</button>
@@ -132,6 +101,23 @@
             <button type="button" data-filter="makeup" aria-pressed="false">Maquillage</button>
             <button type="button" data-filter="home" aria-pressed="false">Maison &amp; Ambiance</button>
             <button type="button" data-filter="kits" aria-pressed="false">Kits &amp; Routines</button>
+          </div>
+          <div class="catalog-toolbar">
+            <label class="catalog-search">
+              <span aria-hidden="true">⌕</span>
+              <input
+                id="catalog-search"
+                type="search"
+                autocomplete="off"
+                aria-label="Rechercher une marque ou un soin"
+                placeholder="Rechercher une marque ou un soin"
+              />
+            </label>
+            <nav class="catalog-pagination" aria-label="Pagination du catalogue">
+              <button type="button" id="page-previous" aria-label="Page précédente">←</button>
+              <span id="page-indicator" aria-live="polite">1 / 1</span>
+              <button type="button" id="page-next" aria-label="Page suivante">→</button>
+            </nav>
           </div>
         </div>
 

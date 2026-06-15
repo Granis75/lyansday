@@ -164,7 +164,6 @@ const searchInput = document.querySelector("#catalog-search");
 const previousPageButton = document.querySelector("#page-previous");
 const nextPageButton = document.querySelector("#page-next");
 const pageIndicator = document.querySelector("#page-indicator");
-const featuredTrack = document.querySelector("#featured-track");
 const productDialog = document.querySelector("#product-dialog");
 const dialogClose = document.querySelector("[data-dialog-close]");
 const mobileNavQuery = window.matchMedia("(max-width: 1120px)");
@@ -184,7 +183,7 @@ const escapeHtml = value =>
   })[character]);
 
 const productMessage = productName =>
-  `Bonjour Lyan & Co.\nJe suis intéressé(e) par ${productName}.\nPouvez-vous me communiquer la disponibilité ?`;
+  `Bonjour Lyan & Co.,\nJe suis intéressé(e) par ${productName}.\nPouvez-vous me communiquer la disponibilité ?`;
 
 const routineMessage = routineName =>
   `Bonjour Lyan & Co.\nJe suis intéressé(e) par la ${routineName}.\nPouvez-vous me communiquer la disponibilité ?`;
@@ -211,7 +210,7 @@ const getFilteredProducts = () => {
       ? product.bestseller
       : product.filter === activeFilter;
     const searchableText = normalizeSearchValue(
-      `${product.brand} ${product.name} ${product.description}`
+      `${product.brand} ${product.name} ${product.description} ${product.category}`
     );
 
     return matchesFilter && (!normalizedQuery || searchableText.includes(normalizedQuery));
@@ -243,7 +242,12 @@ const renderProducts = () => {
     } else {
       productGrid.innerHTML = visibleProducts.map(product => `
         <article class="product-card">
-          <figure class="product-image">
+          <button
+            class="product-image"
+            type="button"
+            data-product-index="${PRODUCTS.indexOf(product)}"
+            aria-label="Voir ${escapeHtml(product.name)} de ${escapeHtml(product.brand)}"
+          >
             <img
               src="${escapeHtml(product.image)}"
               width="1200"
@@ -252,18 +256,17 @@ const renderProducts = () => {
               decoding="async"
               alt="${escapeHtml(product.alt)}"
             />
-            <figcaption class="product-status ${escapeHtml(product.statusClass)}">${escapeHtml(product.availability)}</figcaption>
-          </figure>
+            <span class="product-status ${escapeHtml(product.statusClass)}">${escapeHtml(product.availability)}</span>
+          </button>
           <div class="product-copy">
             <p class="product-brand">${escapeHtml(product.brand)}</p>
-            <h3>${escapeHtml(product.name)}</h3>
+            <h3>
+              <button type="button" data-product-index="${PRODUCTS.indexOf(product)}">
+                ${escapeHtml(product.name)}
+              </button>
+            </h3>
             <p class="product-category">${escapeHtml(product.category)}</p>
             <p class="product-description">${escapeHtml(product.description)}</p>
-            <div class="product-actions">
-              <button type="button" data-product-index="${PRODUCTS.indexOf(product)}">
-                Voir le produit <span aria-hidden="true">↗</span>
-              </button>
-            </div>
           </div>
         </article>
       `).join("");
@@ -281,39 +284,6 @@ const renderProducts = () => {
     if (previousPageButton) previousPageButton.disabled = activePage <= 1;
     if (nextPageButton) nextPageButton.disabled = activePage >= pageCount;
   }, 120);
-};
-
-const renderFeaturedProducts = () => {
-  if (!featuredTrack) return;
-
-  const featuredProducts = [
-    { product: PRODUCTS[1], label: "Édition limitée" },
-    { product: PRODUCTS[2], label: "Stock limité" },
-    { product: PRODUCTS[4], label: "À découvrir" },
-    { product: PRODUCTS[10], label: "À découvrir" },
-  ];
-
-  featuredTrack.innerHTML = featuredProducts.map(({ product, label }) => `
-    <article class="featured-card">
-      <button type="button" data-product-index="${PRODUCTS.indexOf(product)}">
-        <figure>
-          <img
-            src="${escapeHtml(product.image)}"
-            width="1200"
-            height="1600"
-            loading="lazy"
-            decoding="async"
-            alt="${escapeHtml(product.alt)}"
-          />
-          <figcaption>${escapeHtml(label)}</figcaption>
-        </figure>
-        <span>
-          <b>${escapeHtml(product.brand)}</b>
-          ${escapeHtml(product.name)}
-        </span>
-      </button>
-    </article>
-  `).join("");
 };
 
 const openProduct = productIndex => {
@@ -405,7 +375,6 @@ const setMenuState = isOpen => {
 const closeMenu = () => setMenuState(false);
 
 renderProducts();
-renderFeaturedProducts();
 configureContactLinks();
 
 filterButtons.forEach(button => {
@@ -434,15 +403,6 @@ nextPageButton?.addEventListener("click", () => {
   if (activePage >= pageCount) return;
   activePage += 1;
   renderProducts();
-});
-
-document.querySelectorAll("[data-featured-direction]").forEach(button => {
-  button.addEventListener("click", () => {
-    featuredTrack?.scrollBy({
-      left: Number(button.dataset.featuredDirection) * Math.min(featuredTrack.clientWidth * 0.8, 620),
-      behavior: "smooth",
-    });
-  });
 });
 
 document.querySelector(".selection")?.addEventListener("click", event => {
