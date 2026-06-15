@@ -91,19 +91,29 @@
           </p>
         </header>
 
-        <div class="filter-tabs reveal" role="toolbar" aria-label="Filtrer les produits par catégorie">
-          <button type="button" data-filter="all" aria-pressed="true">Tous</button>
-          <button type="button" data-filter="face" aria-pressed="false">Soin visage</button>
-          <button type="button" data-filter="sun" aria-pressed="false">Soin solaire</button>
-          <button type="button" data-filter="masks" aria-pressed="false">Masques</button>
-          <button type="button" data-filter="hair" aria-pressed="false">Soin cheveux</button>
-          <button type="button" data-filter="makeup" aria-pressed="false">Maquillage</button>
-          <button type="button" data-filter="home" aria-pressed="false">Maison &amp; Ambiance</button>
-          <button type="button" data-filter="kits" aria-pressed="false">Kits &amp; Routines</button>
+        <div class="selection-controls reveal">
+          <div class="filter-tabs" role="toolbar" aria-label="Filtrer les produits par catégorie">
+            <button type="button" data-filter="all" aria-pressed="true">Tous</button>
+            <button type="button" data-filter="face" aria-pressed="false">Soin visage</button>
+            <button type="button" data-filter="masks" aria-pressed="false">Masques &amp; Sheet Masks</button>
+            <button type="button" data-filter="sun" aria-pressed="false">Soin solaire</button>
+            <button type="button" data-filter="hair" aria-pressed="false">Soin cheveux</button>
+            <button type="button" data-filter="makeup" aria-pressed="false">Maquillage</button>
+            <button type="button" data-filter="home" aria-pressed="false">Maison &amp; Ambiance</button>
+            <button type="button" data-filter="kits" aria-pressed="false">Kits &amp; Routines</button>
+          </div>
+          <div class="view-toggle" role="group" aria-label="Changer l’affichage des produits">
+            <button type="button" data-view="grid" aria-pressed="true">
+              <span aria-hidden="true">▦</span> Grille
+            </button>
+            <button type="button" data-view="list" aria-pressed="false">
+              <span aria-hidden="true">☰</span> Liste
+            </button>
+          </div>
         </div>
 
         <p class="filter-status" id="filter-status" role="status" aria-live="polite"></p>
-        <div class="product-grid" id="product-grid">
+        <div class="product-grid" id="product-grid" data-view-mode="grid">
           <noscript>Activez JavaScript pour afficher et filtrer la sélection actuelle.</noscript>
         </div>
       </section>
@@ -288,13 +298,40 @@
           <a class="button contact-secondary" data-contact="instagram" href="#contact-details">
             Nous écrire sur Instagram
           </a>
-          <p>
-            <span>E-mail</span>
-            <a data-contact="email" href="#contact-details">Coordonnée à confirmer</a>
-          </p>
         </div>
       </section>
     </main>
+
+    <dialog class="product-dialog" id="product-dialog" aria-labelledby="dialog-product-name">
+      <button class="dialog-close" type="button" data-dialog-close aria-label="Fermer la fiche produit">×</button>
+      <div class="dialog-layout">
+        <figure>
+          <img
+            id="dialog-product-image"
+            src="assets/images/lyan-co/product-anua-heartleaf-77-toner.webp"
+            width="1200"
+            height="1600"
+            loading="lazy"
+            decoding="async"
+            alt=""
+          />
+        </figure>
+        <div class="dialog-copy">
+          <p class="product-brand" id="dialog-product-brand"></p>
+          <h2 id="dialog-product-name"></h2>
+          <p class="product-category" id="dialog-product-category"></p>
+          <p class="dialog-benefit" id="dialog-product-benefit"></p>
+          <p class="dialog-availability" id="dialog-product-availability"></p>
+          <p class="dialog-note">
+            La disponibilité et les modalités de livraison sont confirmées avant commande.
+          </p>
+          <div class="dialog-actions">
+            <a class="button button-dark" id="dialog-whatsapp" href="#commander">Commander sur WhatsApp</a>
+            <a class="button button-light" id="dialog-instagram" href="#commander">Demander sur Instagram</a>
+          </div>
+        </div>
+      </div>
+    </dialog>
 
     <a
       class="floating-whatsapp"
@@ -315,6 +352,7 @@
         <a href="#selection">Sélection</a>
         <a href="#routines">Routines</a>
         <a href="#informations">Informations</a>
+        <a data-contact="email" href="#commander">E-mail</a>
         <a href="privacy.html">Confidentialité</a>
       </div>
     </footer>

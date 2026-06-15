@@ -135,7 +135,7 @@ const FILTER_LABELS = {
   all: "Tous",
   face: "Soin visage",
   sun: "Soin solaire",
-  masks: "Masques",
+  masks: "Masques & Sheet Masks",
   hair: "Soin cheveux",
   makeup: "Maquillage",
   home: "Maison & Ambiance",
@@ -149,7 +149,13 @@ const nav = document.querySelector("#main-nav");
 const productGrid = document.querySelector("#product-grid");
 const filterStatus = document.querySelector("#filter-status");
 const filterButtons = [...document.querySelectorAll("[data-filter]")];
+const viewButtons = [...document.querySelectorAll("[data-view]")];
+const productDialog = document.querySelector("#product-dialog");
+const dialogClose = document.querySelector("[data-dialog-close]");
 const mobileNavQuery = window.matchMedia("(max-width: 1120px)");
+let activeFilter = "all";
+let activeView = "grid";
+let renderTimer;
 
 const escapeHtml = value =>
   String(value).replace(/[&<>"']/g, character => ({
@@ -183,7 +189,8 @@ const renderProducts = (filter = "all") => {
 
   productGrid.classList.add("is-updating");
 
-  window.setTimeout(() => {
+  window.clearTimeout(renderTimer);
+  renderTimer = window.setTimeout(() => {
     if (!visibleProducts.length) {
       productGrid.innerHTML = `
         <div class="empty-selection">
@@ -213,15 +220,9 @@ const renderProducts = (filter = "all") => {
             <p class="product-category">${escapeHtml(product.category)}</p>
             <p class="product-description">${escapeHtml(product.description)}</p>
             <div class="product-actions">
-              <a
-                href="${whatsappUrl(productMessage(product.name))}"
-                data-product-whatsapp
-                ${externalAttributes(Boolean(SITE_CONFIG.contacts.whatsappNumber))}
-              >Commander sur WhatsApp</a>
-              <a
-                href="${SITE_CONFIG.contacts.instagramUrl || "#commander"}"
-                ${externalAttributes(Boolean(SITE_CONFIG.contacts.instagramUrl))}
-              >Demander sur Instagram</a>
+              <button type="button" data-product-index="${PRODUCTS.indexOf(product)}">
+                Voir le produit <span aria-hidden="true">↗</span>
+              </button>
             </div>
           </div>
         </article>
@@ -236,6 +237,52 @@ const renderProducts = (filter = "all") => {
         : `Aucun produit affiché dans ${FILTER_LABELS[filter]}.`;
     }
   }, 120);
+};
+
+const setView = view => {
+  activeView = view;
+  productGrid?.setAttribute("data-view-mode", view);
+  viewButtons.forEach(button => {
+    button.setAttribute("aria-pressed", String(button.dataset.view === view));
+  });
+};
+
+const openProduct = productIndex => {
+  const product = PRODUCTS[Number(productIndex)];
+  if (!product || !productDialog) return;
+
+  const image = document.querySelector("#dialog-product-image");
+  const whatsappLink = document.querySelector("#dialog-whatsapp");
+  const instagramLink = document.querySelector("#dialog-instagram");
+
+  image.src = product.image;
+  image.alt = product.alt;
+  document.querySelector("#dialog-product-brand").textContent = product.brand;
+  document.querySelector("#dialog-product-name").textContent = product.name;
+  document.querySelector("#dialog-product-category").textContent = product.category;
+  document.querySelector("#dialog-product-benefit").textContent = product.description;
+  document.querySelector("#dialog-product-availability").textContent = product.availability;
+
+  whatsappLink.href = whatsappUrl(productMessage(product.name));
+  instagramLink.href = SITE_CONFIG.contacts.instagramUrl || "#commander";
+
+  if (SITE_CONFIG.contacts.whatsappNumber) {
+    whatsappLink.target = "_blank";
+    whatsappLink.rel = "noopener noreferrer";
+  } else {
+    whatsappLink.removeAttribute("target");
+    whatsappLink.removeAttribute("rel");
+  }
+
+  if (SITE_CONFIG.contacts.instagramUrl) {
+    instagramLink.target = "_blank";
+    instagramLink.rel = "noopener noreferrer";
+  } else {
+    instagramLink.removeAttribute("target");
+    instagramLink.removeAttribute("rel");
+  }
+
+  productDialog.showModal();
 };
 
 const configureContactLinks = () => {
@@ -294,9 +341,33 @@ configureContactLinks();
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     filterButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
-    renderProducts(button.dataset.filter);
+    activeFilter = button.dataset.filter;
+    renderProducts(activeFilter);
   });
 });
+
+viewButtons.forEach(button => {
+  button.addEventListener("click", () => setView(button.dataset.view));
+});
+
+productGrid?.addEventListener("click", event => {
+  const trigger = event.target.closest("[data-product-index]");
+  if (trigger) openProduct(trigger.dataset.productIndex);
+});
+
+dialogClose?.addEventListener("click", () => productDialog?.close());
+
+productDialog?.addEventListener("click", event => {
+  if (event.target === productDialog) productDialog.close();
+  if (event.target.closest('a[href="#commander"]')) productDialog.close();
+});
+
+productDialog?.addEventListener("close", () => {
+  if (location.hash === "#commander") return;
+  document.querySelector(`[data-product-index]`)?.focus();
+});
+
+setView(activeView);
 
 if (menuToggle && nav) {
   setMenuState(false);
