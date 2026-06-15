@@ -16,6 +16,7 @@ const PRODUCTS = [
     description: "Éclat · riz · alpha-arbutine",
     availability: "En stock",
     statusClass: "status-available",
+    bestseller: true,
     image: "assets/images/lyan-co/product-boj-glow-deep-serum.webp",
     alt: "Flacon Beauty of Joseon Glow Deep Serum avec riz et lumière naturelle",
   },
@@ -27,6 +28,7 @@ const PRODUCTS = [
     description: "Protection quotidienne · texture légère",
     availability: "En stock",
     statusClass: "status-available",
+    bestseller: true,
     image: "assets/images/lyan-co/product-boj-relief-sun.webp",
     alt: "Tube Beauty of Joseon Relief Sun dans un décor coréen lumineux",
   },
@@ -38,6 +40,7 @@ const PRODUCTS = [
     description: "Nutrition · confort · éclat",
     availability: "Stock limité",
     statusClass: "status-limited",
+    bestseller: true,
     image: "assets/images/lyan-co/product-boj-dynasty-cream.webp",
     alt: "Pot Beauty of Joseon Dynasty Cream avec fleurs et lin crème",
   },
@@ -49,6 +52,7 @@ const PRODUCTS = [
     description: "Hydratation · riz · confort",
     availability: "Sur commande",
     statusClass: "",
+    bestseller: false,
     image: "assets/images/lyan-co/product-boj-rice-milk-toner.webp",
     alt: "Flacon Beauty of Joseon Rice Milk Toner avec riz et céramique",
   },
@@ -60,6 +64,7 @@ const PRODUCTS = [
     description: "Apaisant · réparation · peau sensible",
     availability: "En stock",
     statusClass: "status-available",
+    bestseller: true,
     image: "assets/images/lyan-co/product-skin1004-centella-ampoule.webp",
     alt: "Flacon SKIN1004 Madagascar Centella Ampoule avec matières naturelles",
   },
@@ -71,6 +76,7 @@ const PRODUCTS = [
     description: "Peau sensible · apaisement",
     availability: "Stock limité",
     statusClass: "status-limited",
+    bestseller: true,
     image: "assets/images/lyan-co/product-skin1004-centella-routine.webp",
     alt: "Ensemble de soins SKIN1004 à la Centella",
   },
@@ -82,6 +88,7 @@ const PRODUCTS = [
     description: "Apaisant · peau sensible",
     availability: "En stock",
     statusClass: "status-available",
+    bestseller: true,
     image: "assets/images/lyan-co/product-anua-heartleaf-77-toner.webp",
     alt: "Flacon Anua Heartleaf 77 Toner sur un plateau en pierre claire",
   },
@@ -93,6 +100,7 @@ const PRODUCTS = [
     description: "Éclat · hydratation · barrière cutanée",
     availability: "Sur commande",
     statusClass: "",
+    bestseller: false,
     image: "assets/images/lyan-co/product-anua-rice-70-toner.webp",
     alt: "Flacon Anua Rice 70 Toner entouré de riz dans une lumière crème",
   },
@@ -104,6 +112,7 @@ const PRODUCTS = [
     description: "Texture · éclat · peau lisse",
     availability: "Sur commande",
     statusClass: "",
+    bestseller: true,
     image: "assets/images/lyan-co/product-mixsoon-bean-essence.webp",
     alt: "Flacon Mixsoon Bean Essence dans une composition éditoriale claire",
   },
@@ -115,6 +124,7 @@ const PRODUCTS = [
     description: "Hydratation · confort · douceur",
     availability: "Sur commande",
     statusClass: "",
+    bestseller: false,
     image: "assets/images/lyan-co/product-mixsoon-bean-cream.webp",
     alt: "Pot Mixsoon Bean Cream sur du lin avec graines de soja",
   },
@@ -126,16 +136,17 @@ const PRODUCTS = [
     description: "Acide hyaluronique · hydratation légère",
     availability: "En stock",
     statusClass: "status-available",
+    bestseller: true,
     image: "assets/images/lyan-co/product-torriden-dive-in-serum.webp",
     alt: "Flacon bleu Torriden Dive-In Serum près d’un miroir",
   },
 ];
 
 const FILTER_LABELS = {
-  all: "Tous",
+  bestsellers: "Best-Sellers",
   face: "Soin visage",
   sun: "Soin solaire",
-  masks: "Masques & Sheet Masks",
+  masks: "Masques",
   hair: "Soin cheveux",
   makeup: "Maquillage",
   home: "Maison & Ambiance",
@@ -149,12 +160,18 @@ const nav = document.querySelector("#main-nav");
 const productGrid = document.querySelector("#product-grid");
 const filterStatus = document.querySelector("#filter-status");
 const filterButtons = [...document.querySelectorAll("[data-filter]")];
-const viewButtons = [...document.querySelectorAll("[data-view]")];
+const searchInput = document.querySelector("#catalog-search");
+const previousPageButton = document.querySelector("#page-previous");
+const nextPageButton = document.querySelector("#page-next");
+const pageIndicator = document.querySelector("#page-indicator");
+const featuredTrack = document.querySelector("#featured-track");
 const productDialog = document.querySelector("#product-dialog");
 const dialogClose = document.querySelector("[data-dialog-close]");
 const mobileNavQuery = window.matchMedia("(max-width: 1120px)");
-let activeFilter = "all";
-let activeView = "grid";
+const PRODUCTS_PER_PAGE = 8;
+let activeFilter = "bestsellers";
+let searchQuery = "";
+let activePage = 1;
 let renderTimer;
 
 const escapeHtml = value =>
@@ -180,12 +197,35 @@ const whatsappUrl = message => {
 const externalAttributes = isConfigured =>
   isConfigured ? 'target="_blank" rel="noopener noreferrer"' : "";
 
-const renderProducts = (filter = "all") => {
+const normalizeSearchValue = value =>
+  String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase(SITE_CONFIG.locale);
+
+const getFilteredProducts = () => {
+  const normalizedQuery = normalizeSearchValue(searchQuery.trim());
+
+  return PRODUCTS.filter(product => {
+    const matchesFilter = activeFilter === "bestsellers"
+      ? product.bestseller
+      : product.filter === activeFilter;
+    const searchableText = normalizeSearchValue(
+      `${product.brand} ${product.name} ${product.description}`
+    );
+
+    return matchesFilter && (!normalizedQuery || searchableText.includes(normalizedQuery));
+  });
+};
+
+const renderProducts = () => {
   if (!productGrid) return;
 
-  const visibleProducts = filter === "all"
-    ? PRODUCTS
-    : PRODUCTS.filter(product => product.filter === filter);
+  const filteredProducts = getFilteredProducts();
+  const pageCount = Math.max(1, Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE));
+  activePage = Math.min(activePage, pageCount);
+  const pageStart = (activePage - 1) * PRODUCTS_PER_PAGE;
+  const visibleProducts = filteredProducts.slice(pageStart, pageStart + PRODUCTS_PER_PAGE);
 
   productGrid.classList.add("is-updating");
 
@@ -194,9 +234,9 @@ const renderProducts = (filter = "all") => {
     if (!visibleProducts.length) {
       productGrid.innerHTML = `
         <div class="empty-selection">
-          <p class="eyebrow">${escapeHtml(FILTER_LABELS[filter])}</p>
+          <p class="eyebrow">${escapeHtml(FILTER_LABELS[activeFilter])}</p>
           <h3>Sélection en préparation.</h3>
-          <p>Aucun produit de cette catégorie n’est présenté pour le moment.</p>
+          <p>Aucun produit ne correspond à cette recherche pour le moment.</p>
           <a class="text-link" href="#commander">Nous poser une question <span aria-hidden="true">↗</span></a>
         </div>
       `;
@@ -231,20 +271,49 @@ const renderProducts = (filter = "all") => {
 
     productGrid.classList.remove("is-updating");
     if (filterStatus) {
-      const count = visibleProducts.length;
+      const count = filteredProducts.length;
       filterStatus.textContent = count
-        ? `${count} ${count > 1 ? "produits affichés" : "produit affiché"} dans ${FILTER_LABELS[filter]}.`
-        : `Aucun produit affiché dans ${FILTER_LABELS[filter]}.`;
+        ? `${count} ${count > 1 ? "produits trouvés" : "produit trouvé"} dans ${FILTER_LABELS[activeFilter]}.`
+        : `Aucun produit trouvé dans ${FILTER_LABELS[activeFilter]}.`;
     }
+
+    if (pageIndicator) pageIndicator.textContent = `${activePage} / ${pageCount}`;
+    if (previousPageButton) previousPageButton.disabled = activePage <= 1;
+    if (nextPageButton) nextPageButton.disabled = activePage >= pageCount;
   }, 120);
 };
 
-const setView = view => {
-  activeView = view;
-  productGrid?.setAttribute("data-view-mode", view);
-  viewButtons.forEach(button => {
-    button.setAttribute("aria-pressed", String(button.dataset.view === view));
-  });
+const renderFeaturedProducts = () => {
+  if (!featuredTrack) return;
+
+  const featuredProducts = [
+    { product: PRODUCTS[1], label: "Édition limitée" },
+    { product: PRODUCTS[2], label: "Stock limité" },
+    { product: PRODUCTS[4], label: "À découvrir" },
+    { product: PRODUCTS[10], label: "À découvrir" },
+  ];
+
+  featuredTrack.innerHTML = featuredProducts.map(({ product, label }) => `
+    <article class="featured-card">
+      <button type="button" data-product-index="${PRODUCTS.indexOf(product)}">
+        <figure>
+          <img
+            src="${escapeHtml(product.image)}"
+            width="1200"
+            height="1600"
+            loading="lazy"
+            decoding="async"
+            alt="${escapeHtml(product.alt)}"
+          />
+          <figcaption>${escapeHtml(label)}</figcaption>
+        </figure>
+        <span>
+          <b>${escapeHtml(product.brand)}</b>
+          ${escapeHtml(product.name)}
+        </span>
+      </button>
+    </article>
+  `).join("");
 };
 
 const openProduct = productIndex => {
@@ -336,21 +405,47 @@ const setMenuState = isOpen => {
 const closeMenu = () => setMenuState(false);
 
 renderProducts();
+renderFeaturedProducts();
 configureContactLinks();
 
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     filterButtons.forEach(item => item.setAttribute("aria-pressed", String(item === button)));
     activeFilter = button.dataset.filter;
-    renderProducts(activeFilter);
+    activePage = 1;
+    renderProducts();
   });
 });
 
-viewButtons.forEach(button => {
-  button.addEventListener("click", () => setView(button.dataset.view));
+searchInput?.addEventListener("input", () => {
+  searchQuery = searchInput.value;
+  activePage = 1;
+  renderProducts();
 });
 
-productGrid?.addEventListener("click", event => {
+previousPageButton?.addEventListener("click", () => {
+  if (activePage <= 1) return;
+  activePage -= 1;
+  renderProducts();
+});
+
+nextPageButton?.addEventListener("click", () => {
+  const pageCount = Math.max(1, Math.ceil(getFilteredProducts().length / PRODUCTS_PER_PAGE));
+  if (activePage >= pageCount) return;
+  activePage += 1;
+  renderProducts();
+});
+
+document.querySelectorAll("[data-featured-direction]").forEach(button => {
+  button.addEventListener("click", () => {
+    featuredTrack?.scrollBy({
+      left: Number(button.dataset.featuredDirection) * Math.min(featuredTrack.clientWidth * 0.8, 620),
+      behavior: "smooth",
+    });
+  });
+});
+
+document.querySelector(".selection")?.addEventListener("click", event => {
   const trigger = event.target.closest("[data-product-index]");
   if (trigger) openProduct(trigger.dataset.productIndex);
 });
@@ -367,7 +462,12 @@ productDialog?.addEventListener("close", () => {
   document.querySelector(`[data-product-index]`)?.focus();
 });
 
-setView(activeView);
+document.querySelectorAll(".accordion-list details").forEach(details => {
+  const symbol = details.querySelector("summary span");
+  details.addEventListener("toggle", () => {
+    if (symbol) symbol.textContent = details.open ? "−" : "+";
+  });
+});
 
 if (menuToggle && nav) {
   setMenuState(false);
