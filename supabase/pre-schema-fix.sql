@@ -24,6 +24,7 @@ create table if not exists public.products (
   subtitle text,
   short_description text,
   long_description text,
+  availability text not null default 'on_order',
   price_label text,
   purchase_url text,
   main_image_url text,
@@ -53,6 +54,9 @@ add column if not exists short_description text;
 
 alter table public.products
 add column if not exists long_description text;
+
+alter table public.products
+add column if not exists availability text default 'on_order';
 
 alter table public.products
 add column if not exists price_label text;

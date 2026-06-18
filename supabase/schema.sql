@@ -17,6 +17,7 @@ create table if not exists public.products (
   long_description text,
   main_image_url text,
   gallery_image_urls text[] not null default '{}',
+  availability text not null default 'on_order' check (availability in ('available', 'on_order')),
   price_label text,
   purchase_url text,
   tag text check (tag is null or tag in ('nouveaute', 'favori', 'essentiel', 'selection')),
@@ -36,6 +37,7 @@ alter table public.products
   add column if not exists long_description text,
   add column if not exists main_image_url text,
   add column if not exists gallery_image_urls text[] not null default '{}',
+  add column if not exists availability text default 'on_order',
   add column if not exists price_label text,
   add column if not exists purchase_url text,
   add column if not exists tag text,
@@ -131,9 +133,16 @@ update public.products
 set gallery_image_urls = '{}'
 where gallery_image_urls is null;
 
+update public.products
+set availability = 'on_order'
+where availability is null
+   or availability not in ('available', 'on_order');
+
 alter table public.products
   alter column status set default 'draft',
   alter column status set not null,
+  alter column availability set default 'on_order',
+  alter column availability set not null,
   alter column display_order set default 1000,
   alter column display_order set not null,
   alter column gallery_image_urls set default '{}',
@@ -256,6 +265,7 @@ insert into public.products (
   short_description,
   long_description,
   main_image_url,
+  availability,
   price_label,
   purchase_url,
   tag,
@@ -270,6 +280,7 @@ insert into public.products (
   'Une lotion légère pensée pour apaiser et hydrater sans alourdir la routine.',
   'Produit de démonstration. Remplacez son image et ses textes depuis l’admin avant mise en ligne.',
   'assets/images/lyan-co/product-anua-heartleaf-77-toner.webp',
+  'on_order',
   null,
   null,
   'favori',

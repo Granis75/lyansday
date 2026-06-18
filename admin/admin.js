@@ -12,6 +12,11 @@ const statusLabels = {
   hidden: "Masqué",
 };
 
+const availabilityLabels = {
+  available: "Disponible",
+  on_order: "Sur commande",
+};
+
 let products = [];
 
 const byId = id => document.getElementById(id);
@@ -157,7 +162,7 @@ const renderProducts = () => {
   const visibleProducts = getFilteredProducts();
 
   if (!visibleProducts.length) {
-    list.innerHTML = '<tr><td colspan="7" class="empty-cell">Aucun produit à afficher.</td></tr>';
+    list.innerHTML = '<tr><td colspan="8" class="empty-cell">Aucun produit à afficher.</td></tr>';
     return;
   }
 
@@ -174,6 +179,7 @@ const renderProducts = () => {
       </td>
       <td>${escapeHtml(product.brand)}</td>
       <td>${escapeHtml(product.category)}${product.subcategory ? `<span class="product-sub">${escapeHtml(product.subcategory)}</span>` : ""}</td>
+      <td>${escapeHtml(availabilityLabels[product.availability] || "Sur commande")}</td>
       <td><span class="status-pill status-${escapeHtml(product.status)}">${escapeHtml(statusLabels[product.status] || product.status)}</span></td>
       <td>${Number(product.display_order || 0)}</td>
       <td>
@@ -216,6 +222,7 @@ const openForm = product => {
   setMessage(byId("form-message"), "");
 
   const values = product || {
+    availability: "on_order",
     status: "draft",
     display_order: 1000,
   };
@@ -287,7 +294,7 @@ const saveProduct = async event => {
       long_description: formValue(formData, "long_description"),
       main_image_url: uploadedImageUrl || existingImageUrl,
       gallery_image_urls: [...existingGalleryUrls, ...uploadedGalleryUrls],
-      price_label: formValue(formData, "price_label"),
+      availability: formValue(formData, "availability") || "on_order",
       purchase_url: formValue(formData, "purchase_url"),
       tag: formValue(formData, "tag"),
       status: formValue(formData, "status") || "draft",

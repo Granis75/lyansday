@@ -8,394 +8,38 @@ const SITE_CONFIG = {
 };
 
 let PRODUCTS = [
-  {
-    brand: "Beauty of Joseon",
-    name: "Glow Deep Serum",
-    category: "Soin visage",
-    filter: "face",
-    description: "Éclat · riz · alpha-arbutine",
-    availability: "En stock",
-    statusClass: "status-available",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-boj-glow-deep-serum.webp",
-    alt: "Flacon Beauty of Joseon Glow Deep Serum avec riz et lumière naturelle",
-  },
-  {
-    brand: "Beauty of Joseon",
-    name: "Relief Sun SPF50+",
-    category: "Soin solaire",
-    filter: "sun",
-    description: "Protection quotidienne · texture légère",
-    availability: "En stock",
-    statusClass: "status-available",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-boj-relief-sun.webp",
-    alt: "Tube Beauty of Joseon Relief Sun dans un décor coréen lumineux",
-  },
-  {
-    brand: "Beauty of Joseon",
-    name: "Dynasty Cream",
-    category: "Soin visage",
-    filter: "face",
-    description: "Nutrition · confort · éclat",
-    availability: "Stock limité",
-    statusClass: "status-limited",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-boj-dynasty-cream.webp",
-    alt: "Pot Beauty of Joseon Dynasty Cream avec fleurs et lin crème",
-  },
-  {
-    brand: "Beauty of Joseon",
-    name: "Rice Milk Toner",
-    category: "Soin visage",
-    filter: "face",
-    description: "Hydratation · riz · confort",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/product-boj-rice-milk-toner.webp",
-    alt: "Flacon Beauty of Joseon Rice Milk Toner avec riz et céramique",
-  },
-  {
-    brand: "SKIN1004",
-    name: "Madagascar Centella Ampoule",
-    category: "Soin visage",
-    filter: "face",
-    description: "Apaisant · réparation · peau sensible",
-    availability: "En stock",
-    statusClass: "status-available",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-skin1004-centella-ampoule.webp",
-    alt: "Flacon SKIN1004 Madagascar Centella Ampoule avec matières naturelles",
-  },
-  {
-    brand: "SKIN1004",
-    name: "Centella Routine",
-    category: "Kits & Routines",
-    filter: "kits",
-    description: "Peau sensible · apaisement",
-    availability: "Stock limité",
-    statusClass: "status-limited",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-skin1004-centella-routine.webp",
-    alt: "Ensemble de soins SKIN1004 à la Centella",
-  },
-  {
-    brand: "Anua",
-    name: "Heartleaf 77 Toner",
-    category: "Soin visage",
-    filter: "face",
-    description: "Apaisant · peau sensible",
-    availability: "En stock",
-    statusClass: "status-available",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-anua-heartleaf-77-toner.webp",
-    alt: "Flacon Anua Heartleaf 77 Toner sur un plateau en pierre claire",
-  },
-  {
-    brand: "Anua",
-    name: "Rice 70 Toner",
-    category: "Soin visage",
-    filter: "face",
-    description: "Éclat · hydratation · barrière cutanée",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/product-anua-rice-70-toner.webp",
-    alt: "Flacon Anua Rice 70 Toner entouré de riz dans une lumière crème",
-  },
-  {
-    brand: "Mixsoon",
-    name: "Bean Essence",
-    category: "Soin visage",
-    filter: "face",
-    description: "Texture · éclat · peau lisse",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-mixsoon-bean-essence.webp",
-    alt: "Flacon Mixsoon Bean Essence dans une composition éditoriale claire",
-  },
-  {
-    brand: "Mixsoon",
-    name: "Bean Cream",
-    category: "Soin visage",
-    filter: "face",
-    description: "Hydratation · confort · douceur",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/product-mixsoon-bean-cream.webp",
-    alt: "Pot Mixsoon Bean Cream sur du lin avec graines de soja",
-  },
-  {
-    brand: "Torriden",
-    name: "Dive-In Serum",
-    category: "Soin visage",
-    filter: "face",
-    description: "Acide hyaluronique · hydratation légère",
-    availability: "En stock",
-    statusClass: "status-available",
-    bestseller: true,
-    image: "assets/images/lyan-co/product-torriden-dive-in-serum.webp",
-    alt: "Flacon bleu Torriden Dive-In Serum près d’un miroir",
-  },
-  {
-    brand: "Torriden",
-    name: "Dive-In Sheet Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Hydratation · fraîcheur · confort",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-selection.jpeg",
-    alt: "Torriden Dive-In Sheet Mask sur fond bleu",
-  },
-  {
-    brand: "Keana Nadeshiko",
-    name: "Rice Mask 10 PCS",
-    category: "Masques",
-    filter: "masks",
-    description: "Riz · douceur · éclat",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-keana-nadeshiko-rice-mask-10pcs.jpeg",
-    alt: "Pack Keana Nadeshiko Rice Mask 10 PCS",
-  },
-  {
-    brand: "Mediheal",
-    name: "Tea Tree Essential Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Tea tree · peau nette",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-mediheal-tea-tree-essential-mask.jpeg",
-    alt: "Masque Mediheal Tea Tree Essential Mask",
-  },
-  {
-    brand: "Biodance",
-    name: "Bio Collagen Deep Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Collagène · confort · rebond",
-    availability: "En stock",
-    statusClass: "status-available",
-    bestseller: true,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-biodance-bio-collagen-deep-mask.jpeg",
-    alt: "Biodance Bio Collagen Deep Mask",
-  },
-  {
-    brand: "Torriden",
-    name: "Dive-In Low Molecular Hyaluronic Acid Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Acide hyaluronique · hydratation",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-torriden-dive-in-low-molecular-hyaluronic-acid-mask.jpeg",
-    alt: "Torriden Dive-In Low Molecular Hyaluronic Acid Mask",
-  },
-  {
-    brand: "Saborino",
-    name: "Morning Face Mask Botanical",
-    category: "Masques",
-    filter: "masks",
-    description: "Citrus leaf · routine matin",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-saborino-morning-face-mask-botanical.jpeg",
-    alt: "Saborino Morning Face Mask Botanical Citrus Leaf",
-  },
-  {
-    brand: "Medicube",
-    name: "PDRN Pink Collagen Gel Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "PDRN · collagène · éclat",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: true,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-medicube-pdrn-pink-collagen-gel-mask.jpeg",
-    alt: "Medicube PDRN Pink Collagen Gel Mask",
-  },
-  {
-    brand: "Saborino",
-    name: "Morning Face Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Matin · fraîcheur · pratique",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-saborino-morning-face-mask.jpeg",
-    alt: "Saborino Morning Face Mask",
-  },
-  {
-    brand: "Lyan & Co Selection",
-    name: "Glow Hydrate Repair Sheet Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Glow · hydratation · réparation",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-glow-hydrate-repair-routine.jpeg",
-    alt: "Sheet mask glow hydrate repair sélection Lyan & Co",
-  },
-  {
-    brand: "CICA FACE",
-    name: "Cica Sheet Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Cica · apaisant · peau sensible",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-cica-face-sheet-mask.png",
-    alt: "CICA FACE Cica Sheet Mask",
-  },
-  {
-    brand: "Saborino",
-    name: "Face Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Routine express · peau fraîche",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-saborino-face-mask.jpeg",
-    alt: "Saborino Face Mask",
-  },
-  {
-    brand: "Lyan & Co Selection",
-    name: "Sheet Mask Discovery",
-    category: "Masques",
-    filter: "masks",
-    description: "Découverte · soin visage",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-discovery.jpg",
-    alt: "Sheet mask découverte sélection Lyan & Co",
-  },
-  {
-    brand: "CICA FACE",
-    name: "Cica Visual Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Cica · confort · apaisement",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-cica-visual.webp",
-    alt: "Visuel CICA FACE Cica Visual Mask",
-  },
-  {
-    brand: "Anua",
-    name: "Peach Sheet Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Peach · éclat · douceur",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-anua-peach-sheet-mask.jpeg",
-    alt: "Anua Peach Sheet Mask",
-  },
-  {
-    brand: "Lyan & Co Selection",
-    name: "Japanese Sheet Mask Selection",
-    category: "Masques",
-    filter: "masks",
-    description: "J-beauty · sélection douce",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-japanese-selection.jpeg",
-    alt: "Sélection de sheet masks japonais Lyan & Co",
-  },
-  {
-    brand: "Keana Nadeshiko",
-    name: "Rice Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Riz · grain de peau · douceur",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-keana-nadeshiko-rice-mask.jpeg",
-    alt: "Keana Nadeshiko Rice Mask",
-  },
-  {
-    brand: "LuLuLun",
-    name: "Gold Brightening Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Éclat · soin japonais",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-lululun-gold-brightening-mask.jpeg",
-    alt: "LuLuLun Gold Brightening Mask",
-  },
-  {
-    brand: "LuLuLun",
-    name: "Balance Sheet Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Équilibre · hydratation",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-lululun-balance-sheet-mask.jpeg",
-    alt: "LuLuLun Balance Sheet Mask",
-  },
-  {
-    brand: "Derma Laser",
-    name: "Super VC100 Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Vitamine C · éclat",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-derma-laser-super-vc100-mask.jpeg",
-    alt: "Derma Laser Super VC100 Mask",
-  },
-  {
-    brand: "Biodance",
-    name: "Hydro Cera-nol Real Deep Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Hydratation · céramides · confort",
-    availability: "En stock",
-    statusClass: "status-available",
-    bestseller: true,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-biodance-hydro-cera-nol-real-deep-mask.jpeg",
-    alt: "Biodance Hydro Cera-nol Real Deep Mask",
-  },
-  {
-    brand: "LuLuLun",
-    name: "Pure Moist Sheet Mask",
-    category: "Masques",
-    filter: "masks",
-    description: "Hydratation · douceur",
-    availability: "Sur commande",
-    statusClass: "",
-    bestseller: false,
-    image: "assets/images/lyan-co/sheetmasque/sheetmask-lululun-pure-moist-sheet-mask.jpeg",
-    alt: "LuLuLun Pure Moist Sheet Mask",
-  },
+  {"brand": "Anua", "name": "Heartleaf 77 Toner", "category": "Soin visage", "filter": "face", "description": "Apaisant · heartleaf · peau réactive", "availability": "on_order", "status": "published", "featured": true, "image": "assets/images/lyan-co/product-anua-heartleaf-77-toner.webp", "alt": "Flacon Anua Heartleaf 77 Toner en lumière naturelle"},
+  {"brand": "Anua", "name": "Rice 70 Toner", "category": "Soin visage", "filter": "face", "description": "Hydratant · riz · teint unifié", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-anua-rice-70-toner.webp", "alt": "Flacon Anua Rice 70 sur fond clair"},
+  {"brand": "Torriden", "name": "Dive-In Serum", "category": "Soin visage", "filter": "face", "description": "Hydratation · acide hyaluronique · léger", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-torriden-dive-in-serum.webp", "alt": "Flacon Torriden Dive-In Serum avec eucalyptus"},
+  {"brand": "Beauty of Joseon", "name": "Dynasty Cream", "category": "Soin visage", "filter": "face", "description": "Nourrissant · actifs traditionnels · confort", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-beauty-of-joseon-dynasty-cream.webp", "alt": "Pot Beauty of Joseon Dynasty Cream"},
+  {"brand": "Beauty of Joseon", "name": "Glow Deep Serum", "category": "Soin visage", "filter": "face", "description": "Éclat · riz · alpha-arbutine", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-beauty-of-joseon-glow-deep-serum.webp", "alt": "Flacon Beauty of Joseon Glow Deep Serum, ambre"},
+  {"brand": "SKIN1004", "name": "Madagascar Centella Ampoule", "category": "Soin visage", "filter": "face", "description": "Apaisant · centella · peau sensible", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-skin1004-centella-ampoule.webp", "alt": "Flacon SKIN1004 Madagascar Centella Ampoule, ambre"},
+  {"brand": "Mixsoon", "name": "Bean Essence", "category": "Soin visage", "filter": "face", "description": "Hydratant · soja fermenté · glass skin", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-mixsoon-bean-essence.webp", "alt": "Flacon pompe Mixsoon Bean Essence"},
+  {"brand": "Beauty of Joseon", "name": "Glow Replenishing Rice Milk Toner", "category": "Soin visage", "filter": "face", "description": "Hydratant · riz · teint repulpé", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-beauty-of-joseon-glow-replenishing-rice-milk-toner.webp", "alt": "Flacon Beauty of Joseon Glow Replenishing Rice Milk Toner"},
+  {"brand": "Mixsoon", "name": "Bean Cream", "category": "Soin visage", "filter": "face", "description": "Nutrition · soja · glass skin", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-mixsoon-bean-cream.webp", "alt": "Pot Mixsoon Bean Cream avec graines de soja"},
+  {"brand": "SKIN1004", "name": "Madagascar Centella Tea-Trica Relief Ampoule", "category": "Soin visage", "filter": "face", "description": "Purifiant · tea-tree · centella", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-skin1004-tea-trica-relief-ampoule.webp", "alt": "Flacon SKIN1004 Tea-Trica Relief Ampoule"},
+  {"brand": "SKIN1004", "name": "Hyalu-Cica Blue Serum", "category": "Soin visage", "filter": "face", "description": "Hydratant · centella · frais", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-skin1004-hyalu-cica-blue-serum.webp", "alt": "Flacon SKIN1004 Hyalu-Cica Blue Serum"},
+  {"brand": "SKIN1004", "name": "Madagascar Centella Poremizing Fresh Ampoule", "category": "Soin visage", "filter": "face", "description": "Pores · centella · Madagascar", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-skin1004-poremizing-fresh-ampoule.webp", "alt": "Flacon SKIN1004 Poremizing Fresh Ampoule, rose"},
+  {"brand": "COSRX", "name": "Advanced Snail 96 Mucin Power Essence", "category": "Soin visage", "filter": "face", "description": "Réparateur · mucine d'escargot · hydratant", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-cosrx-advanced-snail-96-mucin-power-essence.webp", "alt": "Flacon COSRX Advanced Snail 96 Mucin Power Essence"},
+  {"brand": "Medicube", "name": "PDRN Pink Cica Soothing Toner", "category": "Soin visage", "filter": "face", "description": "Apaisant · PDRN · cica", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-medicube-pdrn-pink-cica-soothing-toner.webp", "alt": "Flacon Medicube PDRN Pink Cica Soothing Toner"},
+  {"brand": "Beauty of Joseon", "name": "Relief Sun Rice + Probiotics SPF50+", "category": "Soin solaire", "filter": "sun", "description": "SPF50+ · riz · fini naturel", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/product-beauty-of-joseon-relief-sun-spf50.webp", "alt": "Tube Beauty of Joseon Relief Sun SPF50+"},
+  {"brand": "Biodance", "name": "Bio-Collagen Real Deep Mask", "category": "Masques", "filter": "masks", "description": "Masque · collagène · hydratation intense", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-biodance-bio-collagen-real-deep-mask.webp", "alt": "Masque Biodance Bio-Collagen Real Deep"},
+  {"brand": "Torriden", "name": "Dive-In Mask", "category": "Masques", "filter": "masks", "description": "Masque · acide hyaluronique · hydratant", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-torriden-dive-in-mask.webp", "alt": "Masque Torriden Dive-In, sachet bleu"},
+  {"brand": "Torriden", "name": "Balanceful Cica Mask", "category": "Masques", "filter": "masks", "description": "Masque · centella · apaisant", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-torriden-balanceful-cica-mask.webp", "alt": "Masque Torriden Balanceful Cica, sachet vert"},
+  {"brand": "Anua", "name": "Peach 70 Niacin Serum Mask", "category": "Masques", "filter": "masks", "description": "Masque · pêche · niacinamide", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-anua-peach-70-niacin-serum-mask.webp", "alt": "Masque Anua Peach 70 Niacin Serum, sachet rose"},
+  {"brand": "Mediheal", "name": "Tea Tree Essential Mask", "category": "Masques", "filter": "masks", "description": "Masque · tea-tree · purifiant", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-mediheal-tea-tree-mask.webp", "alt": "Masque Mediheal Tea Tree, sachet vert"},
+  {"brand": "Saborino", "name": "Morning Face Mask (Citrus)", "category": "Masques", "filter": "masks", "description": "Masque · matin 3-en-1 · agrumes", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-saborino-morning-mask-citrus.webp", "alt": "Masque Saborino Morning Citrus, 30 feuilles"},
+  {"brand": "Saborino", "name": "Morning Mask (Fruits rouges)", "category": "Masques", "filter": "masks", "description": "Masque · matin 3-en-1 · fruité", "availability": "on_order", "status": "draft", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-saborino-morning-mask-fruits-rouges.webp", "alt": "Masque Saborino Morning, version fruits rouges"},
+  {"brand": "LuLuLun", "name": "Pure Moist Sheet Mask", "category": "Masques", "filter": "masks", "description": "Masque · hydratant · quotidien", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-lululun-pure-moist-mask.webp", "alt": "Masque LuLuLun Pure Moist, sachet bleu"},
+  {"brand": "LuLuLun", "name": "Balance Sheet Mask", "category": "Masques", "filter": "masks", "description": "Masque · équilibrant · quotidien", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-lululun-balance-mask.webp", "alt": "Masque LuLuLun Balance, sachet rose"},
+  {"brand": "LuLuLun", "name": "Masque Premium (doré)", "category": "Masques", "filter": "masks", "description": "Masque · premium · éclat", "availability": "on_order", "status": "draft", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-lululun-gold-premium-mask.webp", "alt": "Masque LuLuLun, sachet doré"},
+  {"brand": "Ishizawa Keana Nadeshiko", "name": "Rice Mask", "category": "Masques", "filter": "masks", "description": "Masque · riz · pores", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-keana-nadeshiko-rice-mask.webp", "alt": "Masque Keana Nadeshiko Rice, 10 feuilles"},
+  {"brand": "Quality 1st", "name": "Derma Laser Super VC100 Mask", "category": "Masques", "filter": "masks", "description": "Masque · vitamine C · éclat", "availability": "on_order", "status": "draft", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-quality-1st-derma-laser-super-vc100-mask.webp", "alt": "Masques Quality 1st Derma Laser"},
+  {"brand": "Medicube", "name": "PDRN Pink Collagen Gel Mask", "category": "Masques", "filter": "masks", "description": "Masque · collagène · PDRN", "availability": "on_order", "status": "published", "featured": false, "image": "assets/images/lyan-co/sheetmasque/sheetmask-medicube-pdrn-pink-collagen-gel-mask.webp", "alt": "Masque Medicube PDRN Pink Collagen Gel"},
 ];
 
 const FILTER_LABELS = {
-  bestsellers: "Best-Sellers",
+  selection: "Notre sélection",
   face: "Soin visage",
   sun: "Soin solaire",
   masks: "Masques",
@@ -438,7 +82,7 @@ const productDialog = document.querySelector("#product-dialog");
 const dialogClose = document.querySelector("[data-dialog-close]");
 const mobileNavQuery = window.matchMedia("(max-width: 1120px)");
 const PRODUCTS_PER_PAGE = 8;
-let activeFilter = "bestsellers";
+let activeFilter = "selection";
 let searchQuery = "";
 let activePage = 1;
 let renderTimer;
@@ -452,8 +96,22 @@ const escapeHtml = value =>
     "'": "&#039;",
   })[character]);
 
-const productMessage = productName =>
-  `Bonjour Lyan & Co.,\nJe suis intéressé(e) par ${productName}.\nPouvez-vous me communiquer la disponibilité ?`;
+const AVAILABILITY_LABELS = {
+  available: "Disponible",
+  on_order: "Sur commande",
+};
+
+const normalizeAvailability = value =>
+  value === "available" || value === "on_order" ? value : "on_order";
+
+const getAvailabilityLabel = value =>
+  AVAILABILITY_LABELS[normalizeAvailability(value)];
+
+const getAvailabilityClass = value =>
+  normalizeAvailability(value) === "available" ? "status-available" : "status-order";
+
+const productMessage = product =>
+  `Bonjour, je souhaite avoir plus d’informations sur ${product.brand} — ${product.name}. Est-il disponible ?`;
 
 const routineMessage = routineName =>
   `Bonjour Lyan & Co.\nJe suis intéressé(e) par la ${routineName}.\nPouvez-vous me communiquer la disponibilité ?`;
@@ -479,14 +137,13 @@ const productFromSupabase = product => ({
   category: product.category,
   subcategory: product.subcategory,
   filter: CATEGORY_FILTERS[product.category] || "face",
-  description: product.subtitle || product.short_description,
+  description: product.short_description || product.subtitle,
   longDescription: product.long_description,
-  availability: product.price_label || "Disponibilité à confirmer",
-  statusClass: product.price_label ? "status-available" : "",
-  bestseller: FEATURED_TAGS.has(product.tag),
+  availability: normalizeAvailability(product.availability),
+  status: product.status,
+  featured: FEATURED_TAGS.has(product.tag),
   image: product.main_image_url || "assets/images/lyan-co/product-anua-heartleaf-77-toner.webp",
   alt: `${product.name} ${product.brand}`,
-  purchaseUrl: product.purchase_url,
   tag: product.tag,
 });
 
@@ -528,8 +185,10 @@ const getFilteredProducts = () => {
   const normalizedQuery = normalizeSearchValue(searchQuery.trim());
 
   return PRODUCTS.filter(product => {
-    const matchesFilter = activeFilter === "bestsellers"
-      ? product.bestseller || isSupabaseCatalogLoaded
+    if (product.status && product.status !== "published") return false;
+
+    const matchesFilter = activeFilter === "selection"
+      ? product.featured || isSupabaseCatalogLoaded
       : product.filter === activeFilter;
     const searchableText = normalizeSearchValue(
       `${product.brand} ${product.name} ${product.description} ${product.category}`
@@ -563,13 +222,14 @@ const renderProducts = () => {
       `;
     } else {
       productGrid.innerHTML = visibleProducts.map(product => `
-        <article class="product-card">
-          <button
-            class="product-image"
-            type="button"
-            data-product-index="${PRODUCTS.indexOf(product)}"
-            aria-label="Voir ${escapeHtml(product.name)} de ${escapeHtml(product.brand)}"
-          >
+        <article
+          class="product-card"
+          data-product-index="${PRODUCTS.indexOf(product)}"
+          tabindex="0"
+          role="button"
+          aria-label="Voir ${escapeHtml(product.name)} de ${escapeHtml(product.brand)}"
+        >
+          <div class="product-image" aria-hidden="true">
             <img
               src="${escapeHtml(product.image)}"
               width="1200"
@@ -579,15 +239,11 @@ const renderProducts = () => {
               onerror="this.closest('.product-image').classList.add('has-broken-image'); this.remove();"
               alt="${escapeHtml(product.alt)}"
             />
-            <span class="product-status ${escapeHtml(product.statusClass)}">${escapeHtml(product.availability)}</span>
-          </button>
+            <span class="product-status ${escapeHtml(getAvailabilityClass(product.availability))}">${escapeHtml(getAvailabilityLabel(product.availability))}</span>
+          </div>
           <div class="product-copy">
             <p class="product-brand">${escapeHtml(product.brand)}</p>
-            <h3>
-              <button type="button" data-product-index="${PRODUCTS.indexOf(product)}">
-                ${escapeHtml(product.name)}
-              </button>
-            </h3>
+            <h3>${escapeHtml(product.name)}</h3>
             <p class="product-category">${escapeHtml(product.category)}</p>
             <p class="product-description">${escapeHtml(product.description)}</p>
           </div>
@@ -623,12 +279,12 @@ const openProduct = productIndex => {
   document.querySelector("#dialog-product-name").textContent = product.name;
   document.querySelector("#dialog-product-category").textContent = product.category;
   document.querySelector("#dialog-product-benefit").textContent = product.description;
-  document.querySelector("#dialog-product-availability").textContent = product.availability;
+  document.querySelector("#dialog-product-availability").textContent = getAvailabilityLabel(product.availability);
 
-  whatsappLink.href = product.purchaseUrl || whatsappUrl(productMessage(product.name));
+  whatsappLink.href = whatsappUrl(productMessage(product));
   instagramLink.href = SITE_CONFIG.contacts.instagramUrl || "#commander";
 
-  if (product.purchaseUrl || SITE_CONFIG.contacts.whatsappNumber) {
+  if (SITE_CONFIG.contacts.whatsappNumber) {
     whatsappLink.target = "_blank";
     whatsappLink.rel = "noopener noreferrer";
   } else {
@@ -736,6 +392,14 @@ nextPageButton?.addEventListener("click", () => {
 document.querySelector(".selection")?.addEventListener("click", event => {
   const trigger = event.target.closest("[data-product-index]");
   if (trigger) openProduct(trigger.dataset.productIndex);
+});
+
+document.querySelector(".selection")?.addEventListener("keydown", event => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const trigger = event.target.closest(".product-card[data-product-index]");
+  if (!trigger) return;
+  event.preventDefault();
+  openProduct(trigger.dataset.productIndex);
 });
 
 dialogClose?.addEventListener("click", () => productDialog?.close());

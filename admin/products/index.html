@@ -48,6 +48,7 @@
                 <th>Produit</th>
                 <th>Marque</th>
                 <th>Catégorie</th>
+                <th>Disponibilité</th>
                 <th>Statut</th>
                 <th>Ordre</th>
                 <th>Actions</th>
@@ -55,7 +56,7 @@
             </thead>
             <tbody id="products-list">
               <tr>
-                <td colspan="7" class="empty-cell">Chargement du catalogue...</td>
+                <td colspan="8" class="empty-cell">Chargement du catalogue...</td>
               </tr>
             </tbody>
           </table>
@@ -117,8 +118,11 @@
             </select>
           </label>
           <label>
-            Prix optionnel
-            <input name="price_label" placeholder="Ex. 3 900 DA" />
+            Disponibilité client *
+            <select name="availability" required>
+              <option value="available">Disponible</option>
+              <option value="on_order">Sur commande</option>
+            </select>
           </label>
           <label>
             Lien d’achat externe
