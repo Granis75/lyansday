@@ -526,11 +526,10 @@ const loadPublishedProducts = async () => {
 
 const getFilteredProducts = () => {
   const normalizedQuery = normalizeSearchValue(searchQuery.trim());
-  const hasFeaturedProducts = PRODUCTS.some(product => product.bestseller);
 
   return PRODUCTS.filter(product => {
     const matchesFilter = activeFilter === "bestsellers"
-      ? product.bestseller || (isSupabaseCatalogLoaded && !hasFeaturedProducts)
+      ? product.bestseller || isSupabaseCatalogLoaded
       : product.filter === activeFilter;
     const searchableText = normalizeSearchValue(
       `${product.brand} ${product.name} ${product.description} ${product.category}`
