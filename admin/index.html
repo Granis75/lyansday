@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — Lyan &amp; Co.</title>
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body class="admin-shell">
+    <main class="login-view" id="login-view">
+      <section class="login-panel">
+        <p class="eyebrow">Lyan &amp; Co.</p>
+        <h1>Administration catalogue</h1>
+        <p class="muted">Connexion privée pour gérer uniquement les produits de la sélection.</p>
+        <form class="login-form" id="login-form">
+          <label>
+            E-mail admin
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            Mot de passe
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
+          <button class="button button-dark" type="submit">Se connecter</button>
+          <p class="form-message" id="login-message" role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>

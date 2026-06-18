@@ -7,7 +7,7 @@ const SITE_CONFIG = {
   },
 };
 
-const PRODUCTS = [
+let PRODUCTS = [
   {
     brand: "Beauty of Joseon",
     name: "Glow Deep Serum",
@@ -405,6 +405,23 @@ const FILTER_LABELS = {
   kits: "Kits & Routines",
 };
 
+const SUPABASE_CONFIG = window.LYANS_DAY_SUPABASE || {};
+const supabaseClient = SUPABASE_CONFIG.url && SUPABASE_CONFIG.anonKey && window.supabase
+  ? window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey)
+  : null;
+
+const CATEGORY_FILTERS = {
+  "Soin visage": "face",
+  "Masques": "masks",
+  "Soin solaire": "sun",
+  "Soin cheveux": "hair",
+  "Maquillage": "makeup",
+  "Maison & Ambiance": "home",
+  "Kits & Routines": "kits",
+};
+
+const FEATURED_TAGS = new Set(["nouveaute", "favori", "essentiel", "selection"]);
+
 const html = document.documentElement;
 const header = document.querySelector("[data-scroll-header]");
 const menuToggle = document.querySelector(".menu-toggle");
@@ -453,6 +470,46 @@ const normalizeSearchValue = value =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .toLocaleLowerCase(SITE_CONFIG.locale);
+
+const productFromSupabase = product => ({
+  id: product.id,
+  brand: product.brand,
+  name: product.name,
+  category: product.category,
+  subcategory: product.subcategory,
+  filter: CATEGORY_FILTERS[product.category] || "face",
+  description: product.subtitle || product.short_description,
+  longDescription: product.long_description,
+  availability: product.price_label || "Disponibilité à confirmer",
+  statusClass: product.price_label ? "status-available" : "",
+  bestseller: FEATURED_TAGS.has(product.tag),
+  image: product.main_image_url || "assets/images/lyan-co/product-anua-heartleaf-77-toner.webp",
+  alt: `${product.name} ${product.brand}`,
+  purchaseUrl: product.purchase_url,
+  tag: product.tag,
+});
+
+const loadPublishedProducts = async () => {
+  if (!supabaseClient) return;
+
+  const { data, error } = await supabaseClient
+    .from("products")
+    .select("*")
+    .eq("status", "published")
+    .order("display_order", { ascending: true })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    PRODUCTS = [];
+    console.error(
+      "Catalogue Supabase configuré mais indisponible. Vérifiez supabase/schema.sql, la table public.products et les policies RLS.",
+      error
+    );
+    return;
+  }
+
+  PRODUCTS = (data || []).map(productFromSupabase);
+};
 
 const getFilteredProducts = () => {
   const normalizedQuery = normalizeSearchValue(searchQuery.trim());
@@ -506,6 +563,7 @@ const renderProducts = () => {
               height="1600"
               loading="lazy"
               decoding="async"
+              onerror="this.closest('.product-image').classList.add('has-broken-image'); this.remove();"
               alt="${escapeHtml(product.alt)}"
             />
             <span class="product-status ${escapeHtml(product.statusClass)}">${escapeHtml(product.availability)}</span>
@@ -554,10 +612,10 @@ const openProduct = productIndex => {
   document.querySelector("#dialog-product-benefit").textContent = product.description;
   document.querySelector("#dialog-product-availability").textContent = product.availability;
 
-  whatsappLink.href = whatsappUrl(productMessage(product.name));
+  whatsappLink.href = product.purchaseUrl || whatsappUrl(productMessage(product.name));
   instagramLink.href = SITE_CONFIG.contacts.instagramUrl || "#commander";
 
-  if (SITE_CONFIG.contacts.whatsappNumber) {
+  if (product.purchaseUrl || SITE_CONFIG.contacts.whatsappNumber) {
     whatsappLink.target = "_blank";
     whatsappLink.rel = "noopener noreferrer";
   } else {
@@ -626,8 +684,13 @@ const setMenuState = isOpen => {
 
 const closeMenu = () => setMenuState(false);
 
-renderProducts();
-configureContactLinks();
+const initializeSite = async () => {
+  configureContactLinks();
+  await loadPublishedProducts();
+  renderProducts();
+};
+
+initializeSite();
 
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {

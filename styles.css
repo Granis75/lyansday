@@ -386,6 +386,16 @@ h3 {
   transition: transform 600ms ease;
 }
 
+.product-image.has-broken-image::after {
+  content: "Image indisponible";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .product-card:hover .product-image img { transform: scale(1.015); }
 
 .product-status {

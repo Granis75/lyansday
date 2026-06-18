@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produits — Admin Lyan &amp; Co.</title>
+    <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../admin.css" />
+  </head>
+  <body class="admin-shell">
+    <header class="admin-header">
+      <a class="admin-brand" href="../../index.html">lyan &amp; co.</a>
+      <nav>
+        <a href="../../index.html">Voir le site</a>
+        <button type="button" id="sign-out">Déconnexion</button>
+      </nav>
+    </header>
+
+    <main class="admin-main">
+      <section class="admin-title">
+        <div>
+          <p class="eyebrow">Catalogue</p>
+          <h1>Produits</h1>
+        </div>
+        <button class="button button-dark" type="button" id="new-product">Ajouter un produit</button>
+      </section>
+
+      <section class="admin-card">
+        <div class="table-toolbar">
+          <label class="search-field">
+            <span>Recherche</span>
+            <input id="product-search" type="search" placeholder="Nom, marque, catégorie" autocomplete="off" />
+          </label>
+          <p class="form-message" id="products-message" role="status"></p>
+        </div>
+
+        <div class="product-table-wrap">
+          <table class="product-table">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Produit</th>
+                <th>Marque</th>
+                <th>Catégorie</th>
+                <th>Statut</th>
+                <th>Ordre</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-list">
+              <tr>
+                <td colspan="7" class="empty-cell">Chargement du catalogue...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="product-form-dialog" id="product-dialog">
+      <form class="product-form" id="product-form" method="dialog">
+        <div class="dialog-head">
+          <div>
+            <p class="eyebrow">Fiche produit</p>
+            <h2 id="form-title">Ajouter un produit</h2>
+          </div>
+          <button class="icon-button" type="button" id="close-dialog" aria-label="Fermer">×</button>
+        </div>
+
+        <input type="hidden" name="id" />
+        <input type="hidden" name="main_image_url" />
+        <input type="hidden" name="gallery_image_urls" />
+
+        <div class="form-grid">
+          <label>
+            Nom du produit *
+            <input name="name" required />
+          </label>
+          <label>
+            Marque *
+            <input name="brand" required />
+          </label>
+          <label>
+            Catégorie *
+            <select name="category" required>
+              <option value="Soin visage">Soin visage</option>
+              <option value="Masques">Masques</option>
+              <option value="Soin solaire">Soin solaire</option>
+              <option value="Soin cheveux">Soin cheveux</option>
+              <option value="Maquillage">Maquillage</option>
+              <option value="Maison & Ambiance">Maison &amp; Ambiance</option>
+              <option value="Kits & Routines">Kits &amp; Routines</option>
+            </select>
+          </label>
+          <label>
+            Sous-catégorie
+            <input name="subcategory" placeholder="Toner, sérum, masque..." />
+          </label>
+          <label>
+            Sous-titre court
+            <input name="subtitle" placeholder="Éclat · hydratation · confort" />
+          </label>
+          <label>
+            Tag
+            <select name="tag">
+              <option value="">Aucun</option>
+              <option value="nouveaute">Nouveauté</option>
+              <option value="favori">Favori</option>
+              <option value="essentiel">Essentiel</option>
+              <option value="selection">Sélection</option>
+            </select>
+          </label>
+          <label>
+            Prix optionnel
+            <input name="price_label" placeholder="Ex. 3 900 DA" />
+          </label>
+          <label>
+            Lien d’achat externe
+            <input name="purchase_url" type="url" placeholder="https://..." />
+          </label>
+          <label>
+            Statut *
+            <select name="status" required>
+              <option value="draft">Brouillon</option>
+              <option value="published">Publié</option>
+              <option value="hidden">Masqué</option>
+            </select>
+          </label>
+          <label>
+            Ordre d’affichage
+            <input name="display_order" type="number" min="0" step="1" value="1000" />
+          </label>
+          <label class="wide">
+            Description courte *
+            <textarea name="short_description" rows="3" required></textarea>
+          </label>
+          <label class="wide">
+            Description longue optionnelle
+            <textarea name="long_description" rows="5"></textarea>
+          </label>
+          <label class="wide">
+            Image principale
+            <input id="main-image-file" name="main_image_file" type="file" accept="image/*" />
+            <span class="hint">L’image existante est conservée si aucun fichier n’est sélectionné.</span>
+          </label>
+          <label class="wide">
+            Images secondaires optionnelles
+            <input name="gallery_image_files" type="file" accept="image/*" multiple />
+            <span class="hint">Ajouter de nouvelles images secondaires. Les images existantes sont conservées.</span>
+          </label>
+        </div>
+
+        <div class="image-preview" id="image-preview"></div>
+
+        <div class="dialog-actions">
+          <button class="button button-light" type="button" id="cancel-form">Annuler</button>
+          <button class="button button-dark" type="submit">Enregistrer</button>
+        </div>
+        <p class="form-message" id="form-message" role="status"></p>
+      </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../supabase-config.js"></script>
+    <script src="../admin.js"></script>
+  </body>
+</html>
