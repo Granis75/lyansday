@@ -421,6 +421,7 @@ const CATEGORY_FILTERS = {
 };
 
 const FEATURED_TAGS = new Set(["nouveaute", "favori", "essentiel", "selection"]);
+let isSupabaseCatalogLoaded = false;
 
 const html = document.documentElement;
 const header = document.querySelector("[data-scroll-header]");
@@ -492,6 +493,8 @@ const productFromSupabase = product => ({
 const loadPublishedProducts = async () => {
   if (!supabaseClient) return;
 
+  console.info("Supabase configured");
+
   const { data, error } = await supabaseClient
     .from("products")
     .select("*")
@@ -509,14 +512,25 @@ const loadPublishedProducts = async () => {
   }
 
   PRODUCTS = (data || []).map(productFromSupabase);
+  isSupabaseCatalogLoaded = true;
+  console.info("Products loaded", {
+    count: PRODUCTS.length,
+    products: PRODUCTS.map(product => ({
+      id: product.id,
+      name: product.name,
+      category: product.category,
+      tag: product.tag,
+    })),
+  });
 };
 
 const getFilteredProducts = () => {
   const normalizedQuery = normalizeSearchValue(searchQuery.trim());
+  const hasFeaturedProducts = PRODUCTS.some(product => product.bestseller);
 
   return PRODUCTS.filter(product => {
     const matchesFilter = activeFilter === "bestsellers"
-      ? product.bestseller
+      ? product.bestseller || (isSupabaseCatalogLoaded && !hasFeaturedProducts)
       : product.filter === activeFilter;
     const searchableText = normalizeSearchValue(
       `${product.brand} ${product.name} ${product.description} ${product.category}`
