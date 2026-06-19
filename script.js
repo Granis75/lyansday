@@ -101,6 +101,14 @@ const AVAILABILITY_LABELS = {
   on_order: "Sur commande",
 };
 
+function normalizeImageUrl(url) {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) return url;
+  if (url.startsWith("assets/")) return "/" + url;
+  return url;
+}
+
+
 const normalizeAvailability = value =>
   value === "available" || value === "on_order" ? value : "on_order";
 
@@ -231,7 +239,7 @@ const renderProducts = () => {
         >
           <div class="product-image" aria-hidden="true">
             <img
-              src="${escapeHtml(product.image)}"
+              src="${escapeHtml(normalizeImageUrl(product.image))}"
               width="1200"
               height="1600"
               loading="lazy"
@@ -273,7 +281,7 @@ const openProduct = productIndex => {
   const whatsappLink = document.querySelector("#dialog-whatsapp");
   const instagramLink = document.querySelector("#dialog-instagram");
 
-  image.src = product.image;
+  image.src = normalizeImageUrl(product.image || "");
   image.alt = product.alt;
   document.querySelector("#dialog-product-brand").textContent = product.brand;
   document.querySelector("#dialog-product-name").textContent = product.name;
