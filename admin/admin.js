@@ -17,6 +17,14 @@ const availabilityLabels = {
   on_order: "Sur commande",
 };
 
+function normalizeImageUrl(url) {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) return url;
+  if (url.startsWith("assets/")) return "/" + url;
+  return url;
+}
+
+
 let products = [];
 
 const byId = id => document.getElementById(id);
@@ -170,7 +178,7 @@ const renderProducts = () => {
     <tr>
       <td>
         ${product.main_image_url
-          ? `<img class="product-thumb" src="${escapeHtml(product.main_image_url)}" alt="">`
+          ? `<img class="product-thumb" src="${escapeHtml(normalizeImageUrl(product.main_image_url))}" alt="">`
           : '<div class="product-thumb" aria-label="Image manquante"></div>'}
       </td>
       <td>
@@ -237,7 +245,7 @@ const openForm = product => {
   preview.innerHTML = [
     values.main_image_url,
     ...(values.gallery_image_urls || []),
-  ].filter(Boolean).map(url => `<img src="${escapeHtml(url)}" alt="">`).join("");
+  ].filter(Boolean).map(url => `<img src="${escapeHtml(normalizeImageUrl(url))}" alt="">`).join("");
 
   dialog.showModal();
 };
