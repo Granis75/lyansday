@@ -4,6 +4,8 @@ const SITE_CONFIG = {
     whatsappNumber: "",
     instagramUrl: "",
     email: "",
+    ...(window.LYANS_DAY_SUPABASE?.contacts || {}),
+    ...(window.LYANS_DAY_SITE_CONFIG?.contacts || {}),
   },
 };
 
@@ -80,10 +82,19 @@ const nextPageButton = document.querySelector("#page-next");
 const pageIndicator = document.querySelector("#page-indicator");
 const productDialog = document.querySelector("#product-dialog");
 const dialogClose = document.querySelector("[data-dialog-close]");
+const brandFilter = document.querySelector("#brand-filter");
+const categoryFilter = document.querySelector("#category-filter");
+const needFilter = document.querySelector("#need-filter");
+const availabilityFilter = document.querySelector("#availability-filter");
+const filterReset = document.querySelector("#filter-reset");
 const mobileNavQuery = window.matchMedia("(max-width: 1120px)");
 const PRODUCTS_PER_PAGE = 8;
 let activeFilter = "selection";
 let searchQuery = "";
+let selectedBrand = "";
+let selectedCategory = "";
+let selectedNeed = "";
+let selectedAvailability = "";
 let activePage = 1;
 let renderTimer;
 
@@ -101,7 +112,7 @@ const AVAILABILITY_LABELS = {
   on_order: "Sur commande",
 };
 
-const PUBLIC_STATUS_LABELS = new Set(["Disponible", "Sur commande", "Bientôt", "À vérifier"]);
+const PUBLIC_STATUS_LABELS = new Set(["Disponible", "Sur commande"]);
 
 function normalizeImageUrl(url) {
   if (!url) return "";
@@ -126,13 +137,11 @@ const getAvailabilityLabel = value =>
 const getAvailabilityClass = product => {
   const status = getProductStatusLabel(product);
   if (status === "Disponible") return "status-available";
-  if (status === "Bientôt") return "status-soon";
-  if (status === "À vérifier") return "status-check";
   return "status-order";
 };
 
 const productMessage = product =>
-  `Bonjour, je souhaite avoir plus d’informations sur ${product.brand} — ${product.name}. Est-il disponible ?`;
+  `Bonjour, je suis intéressé(e) par le produit : ${product.name}. Est-il disponible ?`;
 
 const routineMessage = routineName =>
   `Bonjour Lyan & Co.\nJe suis intéressé(e) par la ${routineName}.\nPouvez-vous me communiquer la disponibilité ?`;
@@ -142,8 +151,19 @@ const whatsappUrl = message => {
   return number ? `https://wa.me/${number}?text=${encodeURIComponent(message)}` : "#commander";
 };
 
-const externalAttributes = isConfigured =>
-  isConfigured ? 'target="_blank" rel="noopener noreferrer"' : "";
+const isExternalUrl = url =>
+  Boolean(url && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("mailto:")));
+
+const setExternalLinkState = (link, url) => {
+  if (!link) return;
+  if (isExternalUrl(url)) {
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  } else {
+    link.removeAttribute("target");
+    link.removeAttribute("rel");
+  }
+};
 
 const normalizeSearchValue = value =>
   String(value)
@@ -165,11 +185,39 @@ const productFromSupabase = product => ({
   status: product.status,
   featured: FEATURED_TAGS.has(product.tag) || Boolean(product.featured_tag),
   image: product.main_image_url || "",
+  gallery: Array.isArray(product.gallery_image_urls) ? product.gallery_image_urls.filter(Boolean) : [],
   alt: `${product.name} ${product.brand}`,
   tag: product.featured_tag || product.tag || (Array.isArray(product.tags) ? product.tags[0] : ""),
   tags: Array.isArray(product.tags) ? product.tags : [],
   purchaseUrl: product.purchase_url,
 });
+
+const getProductNeed = product =>
+  product.subcategory || product.need || product.subtitle || product.tag || "";
+
+const uniqueSorted = values =>
+  [...new Set(values.map(value => String(value || "").trim()).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, SITE_CONFIG.locale, { sensitivity: "base" }));
+
+const fillSelect = (select, values, defaultLabel) => {
+  if (!select) return;
+  const currentValue = select.value;
+  select.innerHTML = [
+    `<option value="">${escapeHtml(defaultLabel)}</option>`,
+    ...values.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`),
+  ].join("");
+  select.value = values.includes(currentValue) ? currentValue : "";
+};
+
+const syncCatalogFilters = () => {
+  const publicProducts = PRODUCTS.filter(product =>
+    !product.status || product.status === "published"
+  );
+
+  fillSelect(brandFilter, uniqueSorted(publicProducts.map(product => product.brand)), "Toutes les marques");
+  fillSelect(categoryFilter, uniqueSorted(publicProducts.map(product => product.category)), "Toutes les catégories");
+  fillSelect(needFilter, uniqueSorted(publicProducts.map(getProductNeed)), "Tous les besoins");
+};
 
 const loadPublishedProducts = async () => {
   if (!supabaseClient) return;
@@ -184,7 +232,6 @@ const loadPublishedProducts = async () => {
     .order("created_at", { ascending: false });
 
   if (error) {
-    PRODUCTS = [];
     console.error(
       "Catalogue Supabase configuré mais indisponible. Vérifiez supabase/schema.sql, la table public.products et les policies RLS.",
       error
@@ -192,7 +239,12 @@ const loadPublishedProducts = async () => {
     return;
   }
 
-  PRODUCTS = (data || []).map(productFromSupabase);
+  if (!data?.length) {
+    console.warn("Aucun produit publié trouvé dans Supabase. Utilisation du catalogue local de démonstration.");
+    return;
+  }
+
+  PRODUCTS = data.map(productFromSupabase);
   isSupabaseCatalogLoaded = true;
   console.info("Products loaded", {
     count: PRODUCTS.length,
@@ -210,16 +262,25 @@ const getFilteredProducts = () => {
 
   return PRODUCTS.filter(product => {
     if (product.status && product.status !== "published") return false;
-    if (getProductStatusLabel(product) === "À vérifier" || product.status === "À vérifier") return false;
 
-    const matchesFilter = activeFilter === "selection"
-      ? product.featured || isSupabaseCatalogLoaded
+    const publicStatus = getProductStatusLabel(product);
+    const matchesLegacyFilter = activeFilter === "selection"
+      ? isSupabaseCatalogLoaded || product.featured || !filterButtons.length
       : product.filter === activeFilter;
+    const matchesBrand = !selectedBrand || product.brand === selectedBrand;
+    const matchesCategory = !selectedCategory || product.category === selectedCategory;
+    const matchesNeed = !selectedNeed || getProductNeed(product) === selectedNeed;
+    const matchesAvailability = !selectedAvailability || publicStatus === selectedAvailability;
     const searchableText = normalizeSearchValue(
-      `${product.brand} ${product.name} ${product.description} ${product.category}`
+      `${product.brand} ${product.name} ${product.description} ${product.category} ${getProductNeed(product)} ${product.tags?.join(" ")}`
     );
 
-    return matchesFilter && (!normalizedQuery || searchableText.includes(normalizedQuery));
+    return matchesLegacyFilter &&
+      matchesBrand &&
+      matchesCategory &&
+      matchesNeed &&
+      matchesAvailability &&
+      (!normalizedQuery || searchableText.includes(normalizedQuery));
   });
 };
 
@@ -251,7 +312,6 @@ const renderProducts = () => {
           class="product-card"
           data-product-index="${PRODUCTS.indexOf(product)}"
           tabindex="0"
-          role="button"
           aria-label="Voir ${escapeHtml(product.name)} de ${escapeHtml(product.brand)}"
         >
           <div class="product-image" aria-hidden="true">
@@ -271,9 +331,10 @@ const renderProducts = () => {
           <div class="product-copy">
             <p class="product-brand">${escapeHtml(product.brand)}</p>
             <h3>${escapeHtml(product.name)}</h3>
-            <p class="product-category">${escapeHtml(product.category)}</p>
+            <p class="product-category">${escapeHtml(product.category)}${getProductNeed(product) ? ` · ${escapeHtml(getProductNeed(product))}` : ""}</p>
             <p class="product-description">${escapeHtml(product.description)}</p>
             ${product.tag ? `<p class="product-tag">${escapeHtml(product.tag)}</p>` : ""}
+            <button class="product-order" type="button" data-order-product-index="${PRODUCTS.indexOf(product)}">Commander</button>
           </div>
         </article>
       `).join("");
@@ -282,9 +343,10 @@ const renderProducts = () => {
     productGrid.classList.remove("is-updating");
     if (filterStatus) {
       const count = filteredProducts.length;
+      const scope = [selectedBrand, selectedCategory, selectedNeed, selectedAvailability].filter(Boolean).join(" · ") || "Notre sélection";
       filterStatus.textContent = count
-        ? `${count} ${count > 1 ? "produits trouvés" : "produit trouvé"} dans ${FILTER_LABELS[activeFilter]}.`
-        : `Aucun produit trouvé dans ${FILTER_LABELS[activeFilter]}.`;
+        ? `${count} ${count > 1 ? "produits trouvés" : "produit trouvé"} · ${scope}.`
+        : `Aucun produit trouvé · ${scope}.`;
     }
 
     if (pageIndicator) pageIndicator.textContent = `${activePage} / ${pageCount}`;
@@ -293,76 +355,118 @@ const renderProducts = () => {
   }, 120);
 };
 
-const getProductOrderUrl = product =>
-  product.purchaseUrl || product.purchase_url || whatsappUrl(productMessage(product));
+const getProductOrderTarget = product => {
+  const purchaseUrl = product.purchaseUrl || product.purchase_url;
+  if (purchaseUrl) {
+    return { url: purchaseUrl, label: "Commander", channel: "purchase" };
+  }
+
+  const whatsappOrderUrl = whatsappUrl(productMessage(product));
+  if (whatsappOrderUrl !== "#commander") {
+    return { url: whatsappOrderUrl, label: "Demander sur WhatsApp", channel: "whatsapp" };
+  }
+
+  if (SITE_CONFIG.contacts.instagramUrl) {
+    return { url: SITE_CONFIG.contacts.instagramUrl, label: "Demander sur Instagram", channel: "instagram" };
+  }
+
+  return { url: "#commander", label: "Voir les contacts", channel: "contact" };
+};
+
+const getProductOrderUrl = product => getProductOrderTarget(product).url;
+
+const getGeneralContactTarget = () => {
+  const whatsappContactUrl = whatsappUrl("Bonjour Lyan & Co.\nJe souhaite obtenir des informations sur votre sélection.");
+  if (whatsappContactUrl !== "#commander") {
+    return { url: whatsappContactUrl, label: "Commander via WhatsApp" };
+  }
+
+  if (SITE_CONFIG.contacts.instagramUrl) {
+    return { url: SITE_CONFIG.contacts.instagramUrl, label: "Commander via Instagram" };
+  }
+
+  return { url: "#contact-details", label: "Commander" };
+};
+
+const getRoutineOrderTarget = routineName => {
+  const whatsappRoutineUrl = whatsappUrl(routineMessage(routineName));
+  if (whatsappRoutineUrl !== "#commander") {
+    return { url: whatsappRoutineUrl, label: "Demander cette routine" };
+  }
+
+  if (SITE_CONFIG.contacts.instagramUrl) {
+    return { url: SITE_CONFIG.contacts.instagramUrl, label: "Demander cette routine" };
+  }
+
+  return { url: "#commander", label: "Demander cette routine" };
+};
 
 const openProduct = productIndex => {
   const product = PRODUCTS[Number(productIndex)];
   if (!product) return;
-
-  const orderUrl = getProductOrderUrl(product);
-  if (orderUrl && orderUrl !== "#commander") {
-    window.open(orderUrl, "_blank", "noopener,noreferrer");
-    return;
-  }
 
   if (!productDialog) return;
 
   const image = document.querySelector("#dialog-product-image");
   const whatsappLink = document.querySelector("#dialog-whatsapp");
   const instagramLink = document.querySelector("#dialog-instagram");
+  const gallery = document.querySelector("#dialog-product-gallery");
+  const orderTarget = getProductOrderTarget(product);
 
   image.src = normalizeImageUrl(product.image || "");
   image.alt = product.alt || "";
   document.querySelector("#dialog-product-brand").textContent = product.brand;
   document.querySelector("#dialog-product-name").textContent = product.name;
   document.querySelector("#dialog-product-category").textContent = product.category;
+  document.querySelector("#dialog-product-need").textContent = getProductNeed(product);
   document.querySelector("#dialog-product-benefit").textContent = product.description;
+  document.querySelector("#dialog-product-description").textContent = product.longDescription || "";
   document.querySelector("#dialog-product-availability").textContent = getProductStatusLabel(product);
+  if (gallery) {
+    const galleryImages = [product.image, ...(product.gallery || [])].filter(Boolean);
+    gallery.innerHTML = galleryImages.length > 1
+      ? galleryImages.map((url, index) => `
+        <button type="button" data-gallery-image="${escapeHtml(normalizeImageUrl(url))}" aria-label="Voir l’image ${index + 1} de ${escapeHtml(product.name)}">
+          <img src="${escapeHtml(normalizeImageUrl(url))}" alt="" loading="lazy" decoding="async" />
+        </button>
+      `).join("")
+      : "";
+  }
 
-  whatsappLink.href = getProductOrderUrl(product);
+  whatsappLink.href = orderTarget.url;
+  whatsappLink.textContent = orderTarget.label;
   instagramLink.href = SITE_CONFIG.contacts.instagramUrl || "#commander";
 
-  if (SITE_CONFIG.contacts.whatsappNumber) {
-    whatsappLink.target = "_blank";
-    whatsappLink.rel = "noopener noreferrer";
-  } else {
-    whatsappLink.removeAttribute("target");
-    whatsappLink.removeAttribute("rel");
-  }
+  setExternalLinkState(whatsappLink, orderTarget.url);
 
-  if (SITE_CONFIG.contacts.instagramUrl) {
-    instagramLink.target = "_blank";
-    instagramLink.rel = "noopener noreferrer";
-  } else {
-    instagramLink.removeAttribute("target");
-    instagramLink.removeAttribute("rel");
-  }
+  setExternalLinkState(instagramLink, SITE_CONFIG.contacts.instagramUrl);
 
   productDialog.showModal();
 };
 
 const configureContactLinks = () => {
   document.querySelectorAll('[data-contact="whatsapp"]').forEach(link => {
-    if (!SITE_CONFIG.contacts.whatsappNumber) return;
-    link.href = whatsappUrl("Bonjour Lyan & Co.\nJe souhaite obtenir des informations sur votre sélection.");
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+    const target = getGeneralContactTarget();
+    link.href = target.url;
+    const label = link.querySelector("b") || link;
+    label.textContent = target.label;
+    const icon = link.querySelector("span");
+    if (icon) icon.textContent = SITE_CONFIG.contacts.whatsappNumber ? "W" : SITE_CONFIG.contacts.instagramUrl ? "I" : "C";
+    setExternalLinkState(link, target.url);
   });
 
   document.querySelectorAll("[data-routine]").forEach(link => {
     const routineName = link.dataset.routine;
-    if (!SITE_CONFIG.contacts.whatsappNumber || !routineName) return;
-    link.href = whatsappUrl(routineMessage(routineName));
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+    if (!routineName) return;
+    const target = getRoutineOrderTarget(routineName);
+    link.href = target.url;
+    setExternalLinkState(link, target.url);
   });
 
   document.querySelectorAll('[data-contact="instagram"]').forEach(link => {
     if (!SITE_CONFIG.contacts.instagramUrl) return;
     link.href = SITE_CONFIG.contacts.instagramUrl;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+    setExternalLinkState(link, link.href);
   });
 
   document.querySelectorAll('[data-contact="email"]').forEach(link => {
@@ -395,6 +499,7 @@ const closeMenu = () => setMenuState(false);
 const initializeSite = async () => {
   configureContactLinks();
   await loadPublishedProducts();
+  syncCatalogFilters();
   renderProducts();
 };
 
@@ -415,6 +520,34 @@ searchInput?.addEventListener("input", () => {
   renderProducts();
 });
 
+const handleFilterChange = () => {
+  selectedBrand = brandFilter?.value || "";
+  selectedCategory = categoryFilter?.value || "";
+  selectedNeed = needFilter?.value || "";
+  selectedAvailability = availabilityFilter?.value || "";
+  activePage = 1;
+  renderProducts();
+};
+
+[brandFilter, categoryFilter, needFilter, availabilityFilter].forEach(select => {
+  select?.addEventListener("change", handleFilterChange);
+});
+
+filterReset?.addEventListener("click", () => {
+  if (brandFilter) brandFilter.value = "";
+  if (categoryFilter) categoryFilter.value = "";
+  if (needFilter) needFilter.value = "";
+  if (availabilityFilter) availabilityFilter.value = "";
+  if (searchInput) searchInput.value = "";
+  selectedBrand = "";
+  selectedCategory = "";
+  selectedNeed = "";
+  selectedAvailability = "";
+  searchQuery = "";
+  activePage = 1;
+  renderProducts();
+});
+
 previousPageButton?.addEventListener("click", () => {
   if (activePage <= 1) return;
   activePage -= 1;
@@ -429,8 +562,28 @@ nextPageButton?.addEventListener("click", () => {
 });
 
 document.querySelector(".selection")?.addEventListener("click", event => {
+  const orderTrigger = event.target.closest("[data-order-product-index]");
+  if (orderTrigger) {
+    event.stopPropagation();
+    const product = PRODUCTS[Number(orderTrigger.dataset.orderProductIndex)];
+    const orderUrl = product ? getProductOrderUrl(product) : "#commander";
+    if (orderUrl && orderUrl !== "#commander") {
+      window.open(orderUrl, "_blank", "noopener,noreferrer");
+    } else {
+      location.hash = "commander";
+    }
+    return;
+  }
+
   const trigger = event.target.closest("[data-product-index]");
   if (trigger) openProduct(trigger.dataset.productIndex);
+});
+
+document.querySelector("#dialog-product-gallery")?.addEventListener("click", event => {
+  const button = event.target.closest("[data-gallery-image]");
+  const image = document.querySelector("#dialog-product-image");
+  if (!button || !image) return;
+  image.src = button.dataset.galleryImage;
 });
 
 document.querySelector(".selection")?.addEventListener("keydown", event => {

@@ -75,8 +75,6 @@
         </div>
 
         <input type="hidden" name="id" />
-        <input type="hidden" name="main_image_url" />
-        <input type="hidden" name="gallery_image_urls" />
 
         <div class="form-grid">
           <label>
@@ -109,7 +107,7 @@
           </label>
           <label>
             Tag court
-            <input name="featured_tag" placeholder="Ex. spf, centella..." />
+            <input name="featured_tag" placeholder="sélection, routine, nouveauté..." />
           </label>
           <label>
             Tags
@@ -120,8 +118,6 @@
             <select name="public_status" required>
               <option value="Disponible">Disponible</option>
               <option value="Sur commande">Sur commande</option>
-              <option value="Bientôt">Bientôt</option>
-              <option value="À vérifier">À vérifier</option>
             </select>
           </label>
           <label>
@@ -132,8 +128,8 @@
             </select>
           </label>
           <label>
-            Lien d’achat externe
-            <input name="purchase_url" type="url" placeholder="https://..." />
+            Lien WhatsApp ou Instagram
+            <input name="purchase_url" type="url" placeholder="https://wa.me/... ou https://instagram.com/..." />
           </label>
           <label>
             Statut *
@@ -157,13 +153,15 @@
           </label>
           <label class="wide">
             Image principale
+            <input name="main_image_url" placeholder="https://... ou assets/images/..." />
             <input id="main-image-file" name="main_image_file" type="file" accept="image/*" />
-            <span class="hint">L’image existante est conservée si aucun fichier n’est sélectionné.</span>
+            <span class="hint">Ajoutez une URL ou téléversez un fichier. L’image existante est conservée si aucun changement n’est fait.</span>
           </label>
           <label class="wide">
             Images secondaires optionnelles
+            <textarea name="gallery_image_urls" rows="4" placeholder='["https://...", "assets/images/..."]'></textarea>
             <input name="gallery_image_files" type="file" accept="image/*" multiple />
-            <span class="hint">Ajouter de nouvelles images secondaires. Les images existantes sont conservées.</span>
+            <span class="hint">Liste JSON d’URLs, puis fichiers optionnels à ajouter à la galerie existante.</span>
           </label>
         </div>
 

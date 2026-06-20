@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lyan &amp; Co. — K-Beauty et J-Beauty en Algérie</title>
+    <title>Lyan &amp; Co. — Catalogue beauté premium en Algérie</title>
     <meta
       name="description"
-      content="L’essentiel de la K-Beauty et J-Beauty en Algérie. Une sélection privée de soins à commander par WhatsApp ou Instagram."
+      content="Un catalogue beauté calme et soigneusement choisi. Soins, essentiels et routines à commander directement par WhatsApp ou Instagram."
     />
     <meta property="og:locale" content="fr_DZ" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Lyan &amp; Co. — L’essentiel de la K-Beauty &amp; J-Beauty" />
+    <meta property="og:title" content="Lyan &amp; Co. — Catalogue beauté premium" />
     <meta
       property="og:description"
-      content="Une sélection privée de soins coréens et japonais, disponible en Algérie."
+      content="Une sélection beauté simple, claire et soigneusement choisie, disponible en Algérie."
     />
     <meta property="og:image" content="assets/images/lyan-co/product-anua-heartleaf-77-toner.webp" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
@@ -55,12 +55,12 @@
       <section class="hero section-pad" id="accueil" aria-labelledby="hero-title">
         <div class="hero-copy reveal">
           <p class="eyebrow">Lyan &amp; Co.</p>
-          <h1 id="hero-title">L’essentiel de la K-Beauty &amp; J-Beauty.</h1>
+          <h1 id="hero-title">Une sélection beauté simple, claire et soigneusement choisie.</h1>
           <p class="hero-text">
-            Une sélection privée de soins coréens et japonais choisis pour leur
-            efficacité, leur simplicité et leur qualité.
+            Découvrez nos soins, essentiels et routines beauté dans un catalogue
+            calme et facile à parcourir.
           </p>
-          <p class="hero-location">Disponible en Algérie.<br />Commande par WhatsApp ou Instagram.</p>
+          <p class="hero-location">Disponible en Algérie.<br />Commande directe par WhatsApp ou Instagram.</p>
           <div class="button-row">
             <a class="button button-dark" href="#selection">Découvrir la sélection</a>
             <a class="button button-light" href="#commander">Commander</a>
@@ -82,25 +82,43 @@
       <section class="selection section-pad" id="selection" aria-labelledby="selection-title">
         <header class="section-heading reveal">
           <div>
-            <p class="eyebrow">La sélection</p>
-            <h2 id="selection-title">Des soins choisis, pas accumulés.</h2>
+            <p class="eyebrow">Notre sélection</p>
+            <h2 id="selection-title">Un catalogue beauté premium, lisible et sans détour.</h2>
           </div>
           <p>
-            Explorez la collection par besoin. La disponibilité est confirmée
-            directement avant chaque commande.
+            Filtrez par marque, catégorie, besoin ou statut. Chaque produit est
+            présenté uniquement avec un statut clair : Disponible ou Sur commande.
           </p>
         </header>
 
         <div class="selection-controls reveal">
-          <div class="filter-tabs" role="toolbar" aria-label="Filtrer les produits par catégorie">
-            <button type="button" data-filter="selection" aria-pressed="true">Notre sélection</button>
-            <button type="button" data-filter="face" aria-pressed="false">Soin visage</button>
-            <button type="button" data-filter="masks" aria-pressed="false">Masques</button>
-            <button type="button" data-filter="sun" aria-pressed="false">Soin solaire</button>
-            <button type="button" data-filter="hair" aria-pressed="false">Soin cheveux</button>
-            <button type="button" data-filter="makeup" aria-pressed="false">Maquillage</button>
-            <button type="button" data-filter="home" aria-pressed="false">Maison &amp; Ambiance</button>
-            <button type="button" data-filter="kits" aria-pressed="false">Kits &amp; Routines</button>
+          <div class="catalog-filters" aria-label="Filtres du catalogue">
+            <label>
+              <span>Marque</span>
+              <select id="brand-filter">
+                <option value="">Toutes les marques</option>
+              </select>
+            </label>
+            <label>
+              <span>Catégorie</span>
+              <select id="category-filter">
+                <option value="">Toutes les catégories</option>
+              </select>
+            </label>
+            <label>
+              <span>Besoin</span>
+              <select id="need-filter">
+                <option value="">Tous les besoins</option>
+              </select>
+            </label>
+            <label>
+              <span>Statut</span>
+              <select id="availability-filter">
+                <option value="">Tous les statuts</option>
+                <option value="Disponible">Disponible</option>
+                <option value="Sur commande">Sur commande</option>
+              </select>
+            </label>
           </div>
           <div class="catalog-toolbar">
             <label class="catalog-search">
@@ -113,6 +131,7 @@
                 placeholder="Rechercher une marque ou un soin"
               />
             </label>
+            <button class="filter-reset" type="button" id="filter-reset">Réinitialiser</button>
             <nav class="catalog-pagination" aria-label="Pagination du catalogue">
               <button type="button" id="page-previous" aria-label="Page précédente">←</button>
               <span id="page-indicator" aria-live="polite">1 / 1</span>
@@ -151,6 +170,7 @@
             <div class="routine-copy">
               <p class="eyebrow">Hydratation</p>
               <h3>Routine Hydratation</h3>
+              <p class="routine-status">Statut : Sur commande</p>
               <p>Trois textures complémentaires pour apporter de l’eau et préserver le confort.</p>
               <ul>
                 <li>Anua · Heartleaf 77 Toner</li>
@@ -177,6 +197,7 @@
             <div class="routine-copy">
               <p class="eyebrow">Peau sensible</p>
               <h3>Routine Peau Sensible</h3>
+              <p class="routine-status">Statut : Sur commande</p>
               <p>Une routine courte pensée autour de l’apaisement et de la régularité.</p>
               <ul>
                 <li>SKIN1004 · Centella Routine</li>
@@ -203,6 +224,7 @@
             <div class="routine-copy">
               <p class="eyebrow">Éclat</p>
               <h3>Routine Éclat</h3>
+              <p class="routine-status">Statut : Sur commande</p>
               <p>Des soins progressifs pour hydrater et retrouver un teint plus régulier.</p>
               <ul>
                 <li>Beauty of Joseon · Glow Deep Serum</li>
@@ -271,9 +293,9 @@
             </div>
           </details>
           <details>
-            <summary>Paiement à la livraison<span aria-hidden="true">+</span></summary>
+            <summary>Modalités confirmées par message<span aria-hidden="true">+</span></summary>
             <div>
-              <p>Le mode de paiement disponible est précisé pendant l’échange. Aucun paiement n’est demandé directement sur ce site.</p>
+              <p>Les détails pratiques sont précisés pendant l’échange direct, selon les produits demandés et votre localisation.</p>
             </div>
           </details>
           <details>
@@ -329,7 +351,10 @@
           <p class="product-brand" id="dialog-product-brand"></p>
           <h2 id="dialog-product-name"></h2>
           <p class="product-category" id="dialog-product-category"></p>
+          <p class="product-category" id="dialog-product-need"></p>
           <p class="dialog-benefit" id="dialog-product-benefit"></p>
+          <p class="dialog-long-description" id="dialog-product-description"></p>
+          <div class="dialog-gallery" id="dialog-product-gallery" aria-label="Galerie produit"></div>
           <p class="dialog-availability" id="dialog-product-availability"></p>
           <p class="dialog-note">
             La disponibilité et les modalités de livraison sont confirmées avant commande.
@@ -355,7 +380,7 @@
     <footer class="footer">
       <div>
         <a class="footer-brand" href="#accueil">lyan &amp; co.</a>
-        <p>K-Beauty et J-Beauty sélectionnées avec attention.</p>
+        <p>Catalogue beauté premium, sélectionné avec attention.</p>
       </div>
       <div class="footer-meta">
         <a href="#selection">Sélection</a>

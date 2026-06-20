@@ -17,7 +17,7 @@ const availabilityLabels = {
   on_order: "Sur commande",
 };
 
-const publicStatusLabels = new Set(["Disponible", "Sur commande", "Bientôt", "À vérifier"]);
+const publicStatusLabels = new Set(["Disponible", "Sur commande"]);
 
 const publicStatusLabel = product =>
   publicStatusLabels.has(product.public_status)
@@ -59,6 +59,10 @@ const friendlySupabaseError = error => {
 
   if (message.includes("row-level security") || message.includes("violates row-level security")) {
     return "Action refusée par les règles Supabase RLS. Vérifiez que l’utilisateur connecté existe dans public.admin_users.";
+  }
+
+  if (message.includes("Bucket not found") || message.includes("bucket") || message.includes("storage")) {
+    return `Upload image impossible. Vérifiez que le bucket Storage public "${bucketName}" existe et que les policies de supabase/schema.sql sont appliquées.`;
   }
 
   return message;
@@ -293,6 +297,20 @@ const formValue = (formData, key) => {
   return value || null;
 };
 
+const parseGalleryUrls = value => {
+  if (!value) return [];
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(url => String(url).trim()).filter(Boolean) : [];
+  } catch {
+    return String(value)
+      .split(/\n|,/)
+      .map(url => url.trim().replace(/^["']|["']$/g, ""))
+      .filter(Boolean);
+  }
+};
+
 const saveProduct = async event => {
   event.preventDefault();
   const form = event.currentTarget;
@@ -304,7 +322,7 @@ const saveProduct = async event => {
     const uploadedImageUrl = await uploadMainImage(formData.get("main_image_file"));
     const uploadedGalleryUrls = await uploadGalleryImages(formData.getAll("gallery_image_files"));
     const existingImageUrl = formValue(formData, "main_image_url");
-    const existingGalleryUrls = JSON.parse(formValue(formData, "gallery_image_urls") || "[]");
+    const existingGalleryUrls = parseGalleryUrls(formValue(formData, "gallery_image_urls"));
     const payload = {
       name: formValue(formData, "name"),
       brand: formValue(formData, "brand"),

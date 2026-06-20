@@ -19,16 +19,28 @@ Les demandes sont préparées pour WhatsApp et Instagram.
 
 ## Configuration
 
-Les coordonnées officielles sont centralisées dans `SITE_CONFIG.contacts` au début de
-`script.js`. Renseigner le numéro WhatsApp au format international sans `+`, l’URL
-Instagram complète et l’adresse e-mail.
+Les coordonnées officielles sont centralisées dans `supabase-config.js`, dans
+`window.LYANS_DAY_SUPABASE.contacts`.
+
+```js
+contacts: {
+  whatsappNumber: "", // format international sans +, ex. 213...
+  instagramUrl: "",
+  email: "",
+}
+```
+
+Ne renseignez pas de numéro approximatif. Si WhatsApp est vide, le site utilise
+Instagram si une URL est configurée, sinon il renvoie vers la section contact.
+Pour un produit, l’ordre de priorité est : `purchase_url`, WhatsApp avec message
+prérempli, Instagram, puis section contact.
 
 Quand Supabase est configuré, le catalogue public lit automatiquement les produits
 publiés depuis la table `products`. Les brouillons et produits masqués ne sont pas
 affichés. Si Supabase n’est pas configuré, le tableau local `PRODUCTS` dans
 `script.js` reste utilisé comme secours. Si Supabase est configuré mais retourne
-une erreur, le site affiche une sélection vide et écrit une erreur claire en
-console pour ne pas masquer un problème de production.
+une erreur ou aucun produit publié, le site conserve cette sélection locale de
+démonstration et écrit un avertissement en console.
 
 Renseigner `supabase-config.js` avec les valeurs publiques du projet Supabase :
 
@@ -37,6 +49,11 @@ window.LYANS_DAY_SUPABASE = {
   url: "https://votre-projet.supabase.co",
   anonKey: "votre-cle-anon-publique",
   productImagesBucket: "product-images",
+  contacts: {
+    whatsappNumber: "",
+    instagramUrl: "",
+    email: "",
+  },
 };
 ```
 
@@ -48,10 +65,32 @@ Routes :
 - `/admin/products` : gestion des produits
 
 Le back-office permet d’ajouter, modifier, supprimer, publier, masquer et
-réordonner les produits. Il permet aussi de remplacer l’image principale via
-Supabase Storage. La colonne officielle pour l’image principale produit est
-`main_image_url`. La colonne officielle pour le lien d’achat produit est
-`purchase_url`.
+réordonner les produits. Il permet aussi de remplacer l’image principale et
+d’ajouter une galerie via Supabase Storage. La colonne officielle pour l’image
+principale produit est `main_image_url`. La galerie utilise
+`gallery_image_urls`. Le lien de commande direct utilise `purchase_url`.
+
+Les statuts visibles attendus sont `Disponible` et `Sur commande`. Si d’anciennes
+données contiennent un autre libellé, l’interface publique l’affiche comme
+`Sur commande`; corrigez ensuite la fiche depuis l’admin.
+
+## Routines
+
+Les routines affichées sur la page publique sont encore une structure locale
+statique dans `index.html`. Chaque routine contient un objectif, plusieurs
+produits inclus, un statut et une courte explication. Pour les rendre dynamiques,
+créer plus tard une table Supabase dédiée, par exemple `routines`, avec :
+
+- `name`
+- `objective`
+- `description`
+- `status`
+- `image_url`
+- `product_ids`
+- `display_order`
+
+Ne pas convertir une routine en simple produit isolé : elle doit toujours
+représenter un ensemble cohérent de plusieurs produits.
 
 ## Installation Supabase
 
@@ -86,6 +125,19 @@ set email = excluded.email;
     - `http://127.0.0.1:8080/admin/products/`
     - `https://votre-site.vercel.app/admin/`
     - `https://votre-site.vercel.app/admin/products/`
+
+## Vérification Storage
+
+Dans Supabase > Storage, vérifier que le bucket `product-images` existe, qu’il
+est public et que les policies de `supabase/schema.sql` sont appliquées. Les URLs
+publiques doivent ressembler à :
+
+```text
+https://PROJECT_REF.supabase.co/storage/v1/object/public/product-images/products/...
+```
+
+Si l’upload admin échoue, le message d’erreur indique de contrôler ce bucket et
+les policies Storage.
 
 ## Requêtes de vérification Supabase
 
