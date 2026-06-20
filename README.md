@@ -11,12 +11,11 @@ Les demandes sont préparées pour WhatsApp et Instagram.
 - `styles.css` : direction artistique et responsive
 - `script.js` : catalogue, configuration des contacts et navigation mobile
 - `admin/` : back-office privé du catalogue produits
-- `supabase/pre-schema-fix.sql` : correction pré-schema pour une base Supabase déjà partielle
 - `supabase/schema.sql` : table produits, stockage images et règles de sécurité
-- `supabase/verification.sql` : requêtes de contrôle après initialisation Supabase
 - `supabase-config.js` : configuration publique Supabase côté navigateur
 - `privacy.html` : informations de confidentialité
 - `assets/images/lyan-co/` : pack visuel WebP et manifeste d’inventaire
+- `archive/import-supabase/` : anciens imports SQL/CSV et rapports de contrôle Supabase
 
 ## Configuration
 
@@ -61,8 +60,8 @@ Supabase Storage. La colonne officielle pour l’image principale produit est
 3. Récupérer la clé `anon public` dans Project Settings > API.
 4. Renseigner `supabase-config.js` avec ces deux valeurs publiques. Ne jamais y
    mettre de `service_role` key.
-5. Si la base Supabase existe déjà ou a été partiellement créée, exécuter d’abord
-   `supabase/pre-schema-fix.sql`.
+5. Si la base Supabase existe déjà ou a été partiellement créée, consulter d’abord
+   `archive/import-supabase/supabase/pre-schema-fix.sql`.
 6. Dans SQL Editor, exécuter tout le contenu de `supabase/schema.sql`.
 7. Vérifier que le script a bien créé :
    - `public.products`
@@ -81,7 +80,7 @@ on conflict (user_id) do update
 set email = excluded.email;
 ```
 
-10. Exécuter les requêtes de `supabase/verification.sql` pour confirmer l’état.
+10. Exécuter les requêtes de `archive/import-supabase/supabase/verification.sql` pour confirmer l’état.
 11. Dans Authentication > URL Configuration, ajouter les Redirect URLs :
     - `http://127.0.0.1:8080/admin/`
     - `http://127.0.0.1:8080/admin/products/`

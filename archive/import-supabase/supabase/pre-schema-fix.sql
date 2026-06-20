@@ -25,7 +25,15 @@ create table if not exists public.products (
   short_description text,
   long_description text,
   availability text not null default 'on_order',
+  public_status text not null default 'Sur commande',
   price_label text,
+  tags text[] default '{}',
+  source_url text,
+  image_rights_status text,
+  sourcing_status text,
+  compliance_status text,
+  internal_score integer,
+  featured_tag text,
   purchase_url text,
   main_image_url text,
   gallery_image_urls text[] default '{}',
@@ -57,6 +65,30 @@ add column if not exists long_description text;
 
 alter table public.products
 add column if not exists availability text default 'on_order';
+
+alter table public.products
+add column if not exists public_status text default 'Sur commande';
+
+alter table public.products
+add column if not exists tags text[] default '{}';
+
+alter table public.products
+add column if not exists source_url text;
+
+alter table public.products
+add column if not exists image_rights_status text;
+
+alter table public.products
+add column if not exists sourcing_status text;
+
+alter table public.products
+add column if not exists compliance_status text;
+
+alter table public.products
+add column if not exists internal_score integer;
+
+alter table public.products
+add column if not exists featured_tag text;
 
 alter table public.products
 add column if not exists price_label text;

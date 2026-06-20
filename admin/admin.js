@@ -17,13 +17,19 @@ const availabilityLabels = {
   on_order: "Sur commande",
 };
 
+const publicStatusLabels = new Set(["Disponible", "Sur commande", "Bientôt", "À vérifier"]);
+
+const publicStatusLabel = product =>
+  publicStatusLabels.has(product.public_status)
+    ? product.public_status
+    : availabilityLabels[product.availability] || "Sur commande";
+
 function normalizeImageUrl(url) {
   if (!url) return "";
   if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) return url;
   if (url.startsWith("assets/")) return "/" + url;
   return url;
 }
-
 
 let products = [];
 
@@ -187,7 +193,7 @@ const renderProducts = () => {
       </td>
       <td>${escapeHtml(product.brand)}</td>
       <td>${escapeHtml(product.category)}${product.subcategory ? `<span class="product-sub">${escapeHtml(product.subcategory)}</span>` : ""}</td>
-      <td>${escapeHtml(availabilityLabels[product.availability] || "Sur commande")}</td>
+      <td>${escapeHtml(publicStatusLabel(product))}</td>
       <td><span class="status-pill status-${escapeHtml(product.status)}">${escapeHtml(statusLabels[product.status] || product.status)}</span></td>
       <td>${Number(product.display_order || 0)}</td>
       <td>
@@ -231,15 +237,22 @@ const openForm = product => {
 
   const values = product || {
     availability: "on_order",
+    public_status: "Sur commande",
     status: "draft",
     display_order: 1000,
   };
 
   [...form.elements].forEach(element => {
     if (!element.name || element.type === "file") return;
-    element.value = element.name === "gallery_image_urls"
-      ? JSON.stringify(values.gallery_image_urls || [])
-      : values[element.name] ?? "";
+    if (element.name === "gallery_image_urls") {
+      element.value = JSON.stringify(values.gallery_image_urls || []);
+      return;
+    }
+    if (element.name === "tags") {
+      element.value = Array.isArray(values.tags) ? values.tags.join(", ") : values.tags ?? "";
+      return;
+    }
+    element.value = values[element.name] ?? "";
   });
 
   preview.innerHTML = [
@@ -303,8 +316,10 @@ const saveProduct = async event => {
       main_image_url: uploadedImageUrl || existingImageUrl,
       gallery_image_urls: [...existingGalleryUrls, ...uploadedGalleryUrls],
       availability: formValue(formData, "availability") || "on_order",
+      public_status: formValue(formData, "public_status") || "Sur commande",
       purchase_url: formValue(formData, "purchase_url"),
-      tag: formValue(formData, "tag"),
+      featured_tag: formValue(formData, "featured_tag"),
+      tags: String(formData.get("tags") || "").split(",").map(tag => tag.trim()).filter(Boolean),
       status: formValue(formData, "status") || "draft",
       display_order: Number(formData.get("display_order") || 1000),
     };

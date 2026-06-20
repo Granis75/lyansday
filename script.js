@@ -101,6 +101,8 @@ const AVAILABILITY_LABELS = {
   on_order: "Sur commande",
 };
 
+const PUBLIC_STATUS_LABELS = new Set(["Disponible", "Sur commande", "Bientôt", "À vérifier"]);
+
 function normalizeImageUrl(url) {
   if (!url) return "";
   if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("/")) return url;
@@ -108,15 +110,26 @@ function normalizeImageUrl(url) {
   return url;
 }
 
-
 const normalizeAvailability = value =>
   value === "available" || value === "on_order" ? value : "on_order";
+
+const getProductStatusLabel = product => {
+  const status = product.publicStatus || product.public_status;
+  return PUBLIC_STATUS_LABELS.has(status)
+    ? status
+    : AVAILABILITY_LABELS[normalizeAvailability(product.availability)];
+};
 
 const getAvailabilityLabel = value =>
   AVAILABILITY_LABELS[normalizeAvailability(value)];
 
-const getAvailabilityClass = value =>
-  normalizeAvailability(value) === "available" ? "status-available" : "status-order";
+const getAvailabilityClass = product => {
+  const status = getProductStatusLabel(product);
+  if (status === "Disponible") return "status-available";
+  if (status === "Bientôt") return "status-soon";
+  if (status === "À vérifier") return "status-check";
+  return "status-order";
+};
 
 const productMessage = product =>
   `Bonjour, je souhaite avoir plus d’informations sur ${product.brand} — ${product.name}. Est-il disponible ?`;
@@ -148,11 +161,14 @@ const productFromSupabase = product => ({
   description: product.short_description || product.subtitle,
   longDescription: product.long_description,
   availability: normalizeAvailability(product.availability),
+  publicStatus: product.public_status,
   status: product.status,
-  featured: FEATURED_TAGS.has(product.tag),
-  image: product.main_image_url || "assets/images/lyan-co/product-anua-heartleaf-77-toner.webp",
+  featured: FEATURED_TAGS.has(product.tag) || Boolean(product.featured_tag),
+  image: product.main_image_url || "",
   alt: `${product.name} ${product.brand}`,
-  tag: product.tag,
+  tag: product.featured_tag || product.tag || (Array.isArray(product.tags) ? product.tags[0] : ""),
+  tags: Array.isArray(product.tags) ? product.tags : [],
+  purchaseUrl: product.purchase_url,
 });
 
 const loadPublishedProducts = async () => {
@@ -194,6 +210,7 @@ const getFilteredProducts = () => {
 
   return PRODUCTS.filter(product => {
     if (product.status && product.status !== "published") return false;
+    if (getProductStatusLabel(product) === "À vérifier" || product.status === "À vérifier") return false;
 
     const matchesFilter = activeFilter === "selection"
       ? product.featured || isSupabaseCatalogLoaded
@@ -238,22 +255,25 @@ const renderProducts = () => {
           aria-label="Voir ${escapeHtml(product.name)} de ${escapeHtml(product.brand)}"
         >
           <div class="product-image" aria-hidden="true">
-            <img
-              src="${escapeHtml(normalizeImageUrl(product.image))}"
-              width="1200"
-              height="1600"
-              loading="lazy"
-              decoding="async"
-              onerror="this.closest('.product-image').classList.add('has-broken-image'); this.remove();"
-              alt="${escapeHtml(product.alt)}"
-            />
-            <span class="product-status ${escapeHtml(getAvailabilityClass(product.availability))}">${escapeHtml(getAvailabilityLabel(product.availability))}</span>
+            ${product.image ? `
+              <img
+                src="${escapeHtml(normalizeImageUrl(product.image))}"
+                width="1200"
+                height="1600"
+                loading="lazy"
+                decoding="async"
+                onerror="this.closest('.product-image').classList.add('has-broken-image'); this.remove();"
+                alt="${escapeHtml(product.alt)}"
+              />
+            ` : '<span class="product-placeholder">Lyan &amp; Co.</span>'}
+            <span class="product-status ${escapeHtml(getAvailabilityClass(product))}">${escapeHtml(getProductStatusLabel(product))}</span>
           </div>
           <div class="product-copy">
             <p class="product-brand">${escapeHtml(product.brand)}</p>
             <h3>${escapeHtml(product.name)}</h3>
             <p class="product-category">${escapeHtml(product.category)}</p>
             <p class="product-description">${escapeHtml(product.description)}</p>
+            ${product.tag ? `<p class="product-tag">${escapeHtml(product.tag)}</p>` : ""}
           </div>
         </article>
       `).join("");
@@ -273,23 +293,34 @@ const renderProducts = () => {
   }, 120);
 };
 
+const getProductOrderUrl = product =>
+  product.purchaseUrl || product.purchase_url || whatsappUrl(productMessage(product));
+
 const openProduct = productIndex => {
   const product = PRODUCTS[Number(productIndex)];
-  if (!product || !productDialog) return;
+  if (!product) return;
+
+  const orderUrl = getProductOrderUrl(product);
+  if (orderUrl && orderUrl !== "#commander") {
+    window.open(orderUrl, "_blank", "noopener,noreferrer");
+    return;
+  }
+
+  if (!productDialog) return;
 
   const image = document.querySelector("#dialog-product-image");
   const whatsappLink = document.querySelector("#dialog-whatsapp");
   const instagramLink = document.querySelector("#dialog-instagram");
 
   image.src = normalizeImageUrl(product.image || "");
-  image.alt = product.alt;
+  image.alt = product.alt || "";
   document.querySelector("#dialog-product-brand").textContent = product.brand;
   document.querySelector("#dialog-product-name").textContent = product.name;
   document.querySelector("#dialog-product-category").textContent = product.category;
   document.querySelector("#dialog-product-benefit").textContent = product.description;
-  document.querySelector("#dialog-product-availability").textContent = getAvailabilityLabel(product.availability);
+  document.querySelector("#dialog-product-availability").textContent = getProductStatusLabel(product);
 
-  whatsappLink.href = whatsappUrl(productMessage(product));
+  whatsappLink.href = getProductOrderUrl(product);
   instagramLink.href = SITE_CONFIG.contacts.instagramUrl || "#commander";
 
   if (SITE_CONFIG.contacts.whatsappNumber) {

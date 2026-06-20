@@ -405,6 +405,16 @@ h3 {
   font-size: 12px;
 }
 
+.product-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(26px, 4vw, 42px);
+}
+
 .product-card:hover .product-image img { transform: scale(1.015); }
 
 .product-status {
@@ -432,6 +442,8 @@ h3 {
 
 .status-available::before { background: var(--sage); }
 .status-order::before { background: var(--accent); }
+.status-soon::before { background: #8f7f5a; }
+.status-check::before { background: #9a8d80; }
 .product-copy { padding-top: 17px; }
 .product-brand { margin-bottom: 8px; }
 .product-category { margin-bottom: 10px; color: var(--muted); font-size: 10px; }
@@ -440,9 +452,19 @@ h3 {
 
 .product-description {
   min-height: 3.2em;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   color: var(--muted);
   font-size: 12px;
+}
+
+.product-tag {
+  width: fit-content;
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .text-link {

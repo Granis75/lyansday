@@ -108,17 +108,24 @@
             <input name="subtitle" placeholder="Éclat · hydratation · confort" />
           </label>
           <label>
-            Tag
-            <select name="tag">
-              <option value="">Aucun</option>
-              <option value="nouveaute">Nouveauté</option>
-              <option value="favori">Favori</option>
-              <option value="essentiel">Essentiel</option>
-              <option value="selection">Sélection</option>
+            Tag court
+            <input name="featured_tag" placeholder="Ex. spf, centella..." />
+          </label>
+          <label>
+            Tags
+            <input name="tags" placeholder="spf, centella, quotidien" />
+          </label>
+          <label>
+            Statut client *
+            <select name="public_status" required>
+              <option value="Disponible">Disponible</option>
+              <option value="Sur commande">Sur commande</option>
+              <option value="Bientôt">Bientôt</option>
+              <option value="À vérifier">À vérifier</option>
             </select>
           </label>
           <label>
-            Disponibilité client *
+            Disponibilité technique *
             <select name="availability" required>
               <option value="available">Disponible</option>
               <option value="on_order">Sur commande</option>

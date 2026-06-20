@@ -18,9 +18,17 @@ create table if not exists public.products (
   main_image_url text,
   gallery_image_urls text[] not null default '{}',
   availability text not null default 'on_order' check (availability in ('available', 'on_order')),
+  public_status text not null default 'Sur commande' check (public_status in ('Disponible', 'Sur commande', 'Bientôt', 'À vérifier')),
   price_label text,
   purchase_url text,
   tag text check (tag is null or tag in ('nouveaute', 'favori', 'essentiel', 'selection')),
+  tags text[] not null default '{}',
+  source_url text,
+  image_rights_status text,
+  sourcing_status text,
+  compliance_status text,
+  internal_score integer,
+  featured_tag text,
   status text not null default 'draft' check (status in ('published', 'draft', 'hidden')),
   display_order integer not null default 1000,
   created_at timestamptz not null default now(),
@@ -38,9 +46,17 @@ alter table public.products
   add column if not exists main_image_url text,
   add column if not exists gallery_image_urls text[] not null default '{}',
   add column if not exists availability text default 'on_order',
+  add column if not exists public_status text default 'Sur commande',
   add column if not exists price_label text,
   add column if not exists purchase_url text,
   add column if not exists tag text,
+  add column if not exists tags text[] not null default '{}',
+  add column if not exists source_url text,
+  add column if not exists image_rights_status text,
+  add column if not exists sourcing_status text,
+  add column if not exists compliance_status text,
+  add column if not exists internal_score integer,
+  add column if not exists featured_tag text,
   add column if not exists status text default 'draft',
   add column if not exists display_order integer default 1000,
   add column if not exists created_at timestamptz default now(),
@@ -138,11 +154,27 @@ set availability = 'on_order'
 where availability is null
    or availability not in ('available', 'on_order');
 
+update public.products
+set public_status = case
+  when availability = 'available' then 'Disponible'
+  else 'Sur commande'
+end
+where public_status is null
+   or public_status not in ('Disponible', 'Sur commande', 'Bientôt', 'À vérifier');
+
+update public.products
+set tags = '{}'
+where tags is null;
+
 alter table public.products
   alter column status set default 'draft',
   alter column status set not null,
   alter column availability set default 'on_order',
   alter column availability set not null,
+  alter column public_status set default 'Sur commande',
+  alter column public_status set not null,
+  alter column tags set default '{}',
+  alter column tags set not null,
   alter column display_order set default 1000,
   alter column display_order set not null,
   alter column gallery_image_urls set default '{}',
