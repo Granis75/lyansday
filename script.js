@@ -378,14 +378,14 @@ const getProductOrderUrl = product => getProductOrderTarget(product).url;
 const getGeneralContactTarget = () => {
   const whatsappContactUrl = whatsappUrl("Bonjour Lyan & Co.\nJe souhaite obtenir des informations sur votre sélection.");
   if (whatsappContactUrl !== "#commander") {
-    return { url: whatsappContactUrl, label: "Commander via WhatsApp" };
+    return { url: whatsappContactUrl, label: "Commander sur WhatsApp" };
   }
 
   if (SITE_CONFIG.contacts.instagramUrl) {
     return { url: SITE_CONFIG.contacts.instagramUrl, label: "Commander via Instagram" };
   }
 
-  return { url: "#contact-details", label: "Commander" };
+  return { url: "#contact-details", label: "Nous contacter" };
 };
 
 const getRoutineOrderTarget = routineName => {

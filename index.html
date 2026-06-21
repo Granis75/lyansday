@@ -54,16 +54,16 @@
     <main id="contenu">
       <section class="hero section-pad" id="accueil" aria-labelledby="hero-title">
         <div class="hero-copy reveal">
-          <p class="eyebrow">Lyan &amp; Co.</p>
-          <h1 id="hero-title">Une sélection beauté simple, claire et soigneusement choisie.</h1>
+          <p class="eyebrow">Catalogue beauté premium</p>
+          <h1 id="hero-title">Des soins sélectionnés, présentés simplement.</h1>
           <p class="hero-text">
-            Découvrez nos soins, essentiels et routines beauté dans un catalogue
-            calme et facile à parcourir.
+            Un catalogue calme et lisible pour découvrir nos essentiels beauté,
+            routines et produits disponibles sur commande.
           </p>
           <p class="hero-location">Disponible en Algérie.<br />Commande directe par WhatsApp ou Instagram.</p>
           <div class="button-row">
-            <a class="button button-dark" href="#selection">Découvrir la sélection</a>
-            <a class="button button-light" href="#commander">Commander</a>
+            <a class="button button-dark" href="#selection">Voir le catalogue</a>
+            <a class="button button-light" data-contact="whatsapp" href="#commander">Nous contacter</a>
           </div>
         </div>
 
@@ -82,16 +82,34 @@
       <section class="selection section-pad" id="selection" aria-labelledby="selection-title">
         <header class="section-heading reveal">
           <div>
-            <p class="eyebrow">Notre sélection</p>
-            <h2 id="selection-title">Un catalogue beauté premium, lisible et sans détour.</h2>
+            <p class="eyebrow">Catalogue</p>
+            <h2 id="selection-title">Notre sélection</h2>
           </div>
           <p>
-            Filtrez par marque, catégorie, besoin ou statut. Chaque produit est
-            présenté uniquement avec un statut clair : Disponible ou Sur commande.
+            Soins visage, solaires, routines et essentiels beauté soigneusement
+            organisés par marque, catégorie et besoin.
           </p>
         </header>
 
         <div class="selection-controls reveal">
+          <div class="catalog-toolbar">
+            <label class="catalog-search">
+              <span aria-hidden="true">⌕</span>
+              <input
+                id="catalog-search"
+                type="search"
+                autocomplete="off"
+                aria-label="Rechercher une marque ou un soin"
+                placeholder="Rechercher une marque ou un soin"
+              />
+            </label>
+            <button class="filter-reset" type="button" id="filter-reset">Réinitialiser</button>
+            <nav class="catalog-pagination" aria-label="Pagination du catalogue">
+              <button type="button" id="page-previous" aria-label="Page précédente">←</button>
+              <span id="page-indicator" aria-live="polite">1 / 1</span>
+              <button type="button" id="page-next" aria-label="Page suivante">→</button>
+            </nav>
+          </div>
           <div class="catalog-filters" aria-label="Filtres du catalogue">
             <label>
               <span>Marque</span>
@@ -120,24 +138,6 @@
               </select>
             </label>
           </div>
-          <div class="catalog-toolbar">
-            <label class="catalog-search">
-              <span aria-hidden="true">⌕</span>
-              <input
-                id="catalog-search"
-                type="search"
-                autocomplete="off"
-                aria-label="Rechercher une marque ou un soin"
-                placeholder="Rechercher une marque ou un soin"
-              />
-            </label>
-            <button class="filter-reset" type="button" id="filter-reset">Réinitialiser</button>
-            <nav class="catalog-pagination" aria-label="Pagination du catalogue">
-              <button type="button" id="page-previous" aria-label="Page précédente">←</button>
-              <span id="page-indicator" aria-live="polite">1 / 1</span>
-              <button type="button" id="page-next" aria-label="Page suivante">→</button>
-            </nav>
-          </div>
         </div>
 
         <p class="filter-status" id="filter-status" role="status" aria-live="polite"></p>
@@ -149,10 +149,10 @@
       <section class="routines section-pad" id="routines" aria-labelledby="routines-title">
         <header class="section-heading reveal">
           <div>
-            <p class="eyebrow">Routines</p>
-            <h2 id="routines-title">Trois chemins simples pour commencer.</h2>
+            <p class="eyebrow">Kits &amp; routines</p>
+            <h2 id="routines-title">Routines simples</h2>
           </div>
-          <p>Une base claire, ajustée ensuite selon votre peau et les produits disponibles.</p>
+          <p>Des ensembles courts, lisibles et composés de plusieurs produits complémentaires.</p>
         </header>
 
         <div class="routine-grid">
@@ -170,6 +170,7 @@
             <div class="routine-copy">
               <p class="eyebrow">Hydratation</p>
               <h3>Routine Hydratation</h3>
+              <p class="routine-objective">Objectif : apporter de l’eau et préserver le confort.</p>
               <p class="routine-status">Statut : Sur commande</p>
               <p>Trois textures complémentaires pour apporter de l’eau et préserver le confort.</p>
               <ul>
@@ -197,6 +198,7 @@
             <div class="routine-copy">
               <p class="eyebrow">Peau sensible</p>
               <h3>Routine Peau Sensible</h3>
+              <p class="routine-objective">Objectif : apaiser et simplifier la routine.</p>
               <p class="routine-status">Statut : Sur commande</p>
               <p>Une routine courte pensée autour de l’apaisement et de la régularité.</p>
               <ul>
@@ -224,6 +226,7 @@
             <div class="routine-copy">
               <p class="eyebrow">Éclat</p>
               <h3>Routine Éclat</h3>
+              <p class="routine-objective">Objectif : hydrater et aider le teint à paraître plus régulier.</p>
               <p class="routine-status">Statut : Sur commande</p>
               <p>Des soins progressifs pour hydrater et retrouver un teint plus régulier.</p>
               <ul>
