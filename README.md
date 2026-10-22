@@ -1,5 +1,7 @@
 # Lyan & Co.
 
+> **Statut — Projet arrêté (22 octobre 2026).** Lyan & Co ne fait plus partie des projets activement développés. Le code, le catalogue et les ressources sont conservés à titre historique ; le contenu ne doit pas être interprété comme une offre commerciale active. Ce changement de statut du dépôt n'interrompt pas automatiquement un éventuel site déjà déployé. L'option officielle d'archivage GitHub n'a pas encore été appliquée.
+
 Boutique éditoriale de K-Beauty et J-Beauty destinée au marché algérien.
 
 Le site présente une sélection courte sans panier ni paiement en ligne.
